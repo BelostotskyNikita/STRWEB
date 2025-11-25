@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика магазина</title>
+    <style>
+        /* Стили остаются без изменений */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .stats-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 23%;
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для календаря */
+        .calendar {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .calendar th, .calendar td {
+            width: 14.28%;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+        }
+        .calendar th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        .calendar-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .calendar-day {
+            cursor: default;
+            transition: background-color 0.2s;
+        }
+        .calendar-day:hover {
+            background-color: #f0f0f0;
+        }
+        .today {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        .other-month {
+            color: #ccc;
+        }
+        /* Стили для диаграмм */
+        .charts-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            min-width: 300px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .chart-wrapper h3 {
+            margin-top: 0;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* Горизонтальная бар-диаграмма */
+        .bar-chart .bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .bar-chart .product-name {
+            width: 150px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .bar-chart .bar-container {
+            flex: 1;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-chart .bar {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            height: 30px;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 10px;
+            min-width: 40px;
+        }
+
+        .bar-chart .bar-value {
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        }
+
+        /* Вертикальная бар-диаграмма */
+        .bar-chart.vertical .chart-bars {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 200px;
+            padding: 20px 0;
+        }
+
+        .bar-chart.vertical .vertical-bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .bar-chart.vertical .vertical-bar {
+            background: linear-gradient(to top, #e74c3c, #c0392b);
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 20px;
+        }
+
+        .bar-chart.vertical .bar-value {
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            margin-top: 5px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .bar-chart.vertical .month-label {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'pet_shop:client_dashboard' %}" class="back-link">← Назад в личный кабинет</a>
+        <h1>Статистика магазина</h1>
+
+        <div class="stats-summary">
+            <div class="stat-card">
+                <h3>Всего пользователей</h3>
+                <div class="stat-value">{{ users_count }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Всего товаров</h3>
+                <div class="stat-value">{{ products_count }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Всего заказов</h3>
+                <div class="stat-value">{{ orders_count }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Общий доход</h3>
+                <div class="stat-value">{{ total_revenue }} $.</div>
+            </div>
+        </div>
+
+        <!-- Динамический календарь -->
+        <div class="section">
+            <h2>Календарь</h2>
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <td colspan="7" class="calendar-header">{{ current_month_name }} {{ current_year }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Пн</th>
+                        <th scope="col">Вт</th>
+                        <th scope="col">Ср</th>
+                        <th scope="col">Чт</th>
+                        <th scope="col">Пт</th>
+                        <th scope="col">Сб</th>
+                        <th scope="col">Вс</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in calendar_weeks %}
+                    <tr>
+                        {% for day in week %}
+                            {% if day.day %}
+                                {% if day.day == current_day and day.month == current_month %}
+                                    <td class="calendar-day today">{{ day.day }}</td>
+                                {% else %}
+                                    <td class="calendar-day">{{ day.day }}</td>
+                                {% endif %}
+                            {% else %}
+                                <td class="calendar-day other-month"></td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Диаграммы -->
+        <div class="section">
+            <h2>Статистика продаж</h2>
+
+            <div class="charts-container">
+                <!-- Диаграмма самых продаваемых продуктов -->
+                <div class="chart-wrapper">
+                    <h3>Топ-5 продуктов за {{ current_month_name }}</h3>
+                    {% if top_products %}
+                    <div class="bar-chart">
+                        {% for product in top_products %}
+                        <div class="bar-item">
+                            <div class="product-name">{{ product.product__name|truncatechars:20 }}</div>
+                            <div class="bar-container">
+                                <div class="bar" style="width: {% widthratio product.total_sold top_products.0.total_sold 100 %}%">
+                                    <span class="bar-value">{{ product.total_sold }} шт.</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="text-align: center; color: #666;">Нет данных о продажах за этот месяц</p>
+                    {% endif %}
+                </div>
+
+                <!-- Диаграмма продаж по месяцам -->
+                <div class="chart-wrapper">
+                    <h3>Продажи по месяцам (последний год)</h3>
+                    {% if monthly_sales %}
+                    <div class="bar-chart vertical">
+                        <div class="chart-bars">
+                            {% for month_data in monthly_sales %}
+                            <div class="vertical-bar-item">
+                                <div class="vertical-bar" style="height: {% widthratio month_data.total_orders monthly_sales_max 80 %}%">
+                                    <span class="bar-value">{{ month_data.total_orders }}</span>
+                                </div>
+                                <div class="month-label">{{ month_data.month|slice:":3" }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <p style="text-align: center; color: #666;">Нет данных о продажах за последний год</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Таблица пользователей с улучшенной доступностью -->
+        <div class="section">
+            <h2>Пользователи</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="user-id">ID</th>
+                        <th scope="col" id="user-username">Имя пользователя</th>
+                        <th scope="col" id="user-email">Email</th>
+                        <th scope="col" id="user-phone">Телефон</th>
+                        <th scope="col" id="user-balance">Баланс</th>
+                        <th scope="col" id="user-employee">Сотрудник</th>
+                        <th scope="col" id="user-birthday">Дата рождения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in service_users %}
+                    <tr>
+                        <td headers="user-id">{{ user.id }}</td>
+                        <td headers="user-username">{{ user.user.username }}</td>
+                        <td headers="user-email">{{ user.user.email }}</td>
+                        <td headers="user-phone">{{ user.phone }}</td>
+                        <td headers="user-balance">{{ user.balance }} $.</td>
+                        <td headers="user-employee">{% if user.is_employee %}Да{% else %}Нет{% endif %}</td>
+                        <td headers="user-birthday">{{ user.birthday_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Таблица товаров с улучшенной доступностью -->
+        <div class="section">
+            <h2>Товары</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="product-article">Артикул</th>
+                        <th scope="col" id="product-name">Название</th>
+                        <th scope="col" id="product-price">Цена</th>
+                        <th scope="col" id="product-supplier">Поставщик</th>
+                        <th scope="col" id="product-quantity">Количество</th>
+                        <th scope="col" id="product-description">Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td headers="product-article">{{ product.article }}</td>
+                        <td headers="product-name">{{ product.name }}</td>
+                        <td headers="product-price">{{ product.price }} $.</td>
+                        <td headers="product-supplier">{{ product.supplier }}</td>
+                        <td headers="product-quantity">{{ product.quantity }}</td>
+                        <td headers="product-description">{{ product.description|truncatechars:50 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Таблица заказов с улучшенной доступностью -->
+        <div class="section">
+            <h2>Заказы</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="order-id">ID</th>
+                        <th scope="col" id="order-user">Пользователь</th>
+                        <th scope="col" id="order-product">Товар</th>
+                        <th scope="col" id="order-quantity">Количество</th>
+                        <th scope="col" id="order-amount">Сумма</th>
+                        <th scope="col" id="order-date">Дата заказа</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td headers="order-id">{{ order.id }}</td>
+                        <td headers="order-user">{{ order.user.user.username }}</td>
+                        <td headers="order-product">{{ order.product.name }}</td>
+                        <td headers="order-quantity">{{ order.quantity }}</td>
+                        <td headers="order-amount">{{ order.total_price }} $.</td>
+                        <td headers="order-date">{{ order.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Таблица отзывов с улучшенной доступностью -->
+        <div class="section">
+            <h2>Отзывы</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="review-user">Пользователь</th>
+                        <th scope="col" id="review-rating">Оценка</th>
+                        <th scope="col" id="review-text">Текст</th>
+                        <th scope="col" id="review-date">Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td headers="review-user">{{ review.customer.user.username }}</td>
+                        <td headers="review-rating">{{ review.rate }} ★</td>
+                        <td headers="review-text">{{ review.text|truncatechars:100 }}</td>
+                        <td headers="review-date">{{ review.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Таблица купонов с улучшенной доступностью -->
+        <div class="section">
+            <h2>Купоны</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="coupon-number">Номер</th>
+                        <th scope="col" id="coupon-discount">Скидка</th>
+                        <th scope="col" id="coupon-deadline">Срок действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coupon in coupons %}
+                    <tr>
+                        <td headers="coupon-number">{{ coupon.number }}</td>
+                        <td headers="coupon-discount">{{ coupon.discount }}%</td>
+                        <td headers="coupon-deadline">{{ coupon.deadline }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Таблица вакансий с улучшенной доступностью -->
+        <div class="section">
+            <h2>Вакансии</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" id="vacancy-name">Название</th>
+                        <th scope="col" id="vacancy-salary">Зарплата</th>
+                        <th scope="col" id="vacancy-description">Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vacancy in vacancies %}
+                    <tr>
+                        <td headers="vacancy-name">{{ vacancy.name }}</td>
+                        <td headers="vacancy-salary">{{ vacancy.salary }} $.</td>
+                        <td headers="vacancy-description">{{ vacancy.info.info|truncatechars:100 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+{% extends "pet_shop/base.html" %}
+
+{% block content %}
+<style>
+    /* Основные стили страницы */
+    .reviews-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .reviews-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .reviews-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: #3498db;
+    }
+
+    /* Стили формы добавления отзыва */
+    .review-form {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #2980b9;
+    }
+
+    /* Стили карточек отзывов */
+    .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .review-card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .review-author {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .review-rating {
+        color: #f39c12;
+        font-weight: bold;
+    }
+
+    .review-text {
+        color: #34495e;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .review-date {
+        color: #7f8c8d;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    /* Сообщение об ошибке */
+    .error-message {
+        color: #e74c3c;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #fadbd8;
+        border-radius: 5px;
+    }
+
+    /* Сообщение при отсутствии отзывов */
+    .no-reviews {
+        text-align: center;
+        padding: 40px;
+        color: #7f8c8d;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container reviews-container">
+    <h3 class="reviews-title">Отзывы наших клиентов</h3>
+
+    {% if user.is_authenticated %}
+    <div class="review-form">
+        <form method="post" action="{% url 'pet_shop:add_review' %}">
+            {% csrf_token %}
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="rate">Оценка (от 1 до 5):</label>
+                <input id="rate" name="rate" type="number" min="1" max="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="text">Ваш отзыв:</label>
+                <textarea id="text" name="text" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Отправить отзыв</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if reviews %}
+    <div class="reviews-list">
+        {% for n in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <span class="review-author">{{ n.customer }}</span>
+                <span class="review-rating">{{ n.rate }}/5 ★</span>
+            </div>
+            <p class="review-text">{{ n.text }}</p>
+            <p class="review-date">{{ n.date }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-reviews">
+        Пока нет отзывов. Будьте первым!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

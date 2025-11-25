@@ -1,0 +1,134 @@
+{% extends "pet_shop/base.html" %}
+
+{% block content %}
+<style>
+    /* Основные стили формы */
+    .login-form {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-form h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    /* Стили для полей ввода */
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        outline: none;
+    }
+
+    /* Стили для кнопки */
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(135deg, #2980b9, #1a252f);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Дополнительные элементы */
+    .form-footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #7f8c8d;
+    }
+
+    .form-footer a {
+        color: #3498db;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .form-footer a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+
+    /* Анимация формы */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-form {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 480px) {
+        .login-form {
+            margin: 30px 15px;
+            padding: 20px;
+        }
+    }
+</style>
+
+<div class="login-form">
+    <h2>Вход в систему</h2>
+    <form method="post" action="{% url 'pet_shop:login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required placeholder="Введите ваш email">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input id="password" name="password" type="password" required placeholder="Введите ваш пароль">
+        </div>
+
+        <button type="submit" class="submit-btn">Войти</button>
+
+        <div class="form-footer">
+            <p>Нет аккаунта? <a href="#">Зарегистрируйтесь</a></p>
+            <p><a href="#">Забыли пароль?</a></p>
+        </div>
+    </form>
+</div>
+{% endblock content %}

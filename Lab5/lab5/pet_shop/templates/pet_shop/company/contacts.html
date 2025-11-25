@@ -1,0 +1,140 @@
+{% extends "pet_shop/base.html" %}
+
+{% load static %}
+{% block content %}
+<style>
+    /* Основные стили */
+    .contact-page {
+        background-color: #f8f9fa;
+        padding: 30px 0;
+    }
+
+    .contact-header {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .contact-header:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #3498db;
+    }
+
+    /* Стили таблицы */
+    .contact-table {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-table thead {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        color: white;
+    }
+
+    .contact-table th {
+        font-weight: 600;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .contact-table td {
+        padding: 15px;
+        vertical-align: middle;
+        text-align: center;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .contact-table tr:hover {
+        background-color: rgba(52, 152, 219, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    /* Стили для изображений */
+    .contact-img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .contact-img:hover {
+        transform: scale(1.03);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .contact-table th,
+        .contact-table td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .contact-img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    /* Анимация загрузки */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .table-responsive {
+        animation: fadeIn 0.5s ease-out;
+    }
+</style>
+
+<div class="container contact-page">
+    {% if contacts %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="contact-header">Наши контакты</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover contact-table">
+                    <thead>
+                        <tr>
+                            <th>Пользователь</th>
+                            <th>Фото</th>
+                            <th>Телефон</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr>
+                            <td class="align-middle">{{ contact.user.user }}</td>
+                            <td>
+                                <img src="{{ random_dog_url }}" class="contact-img img-fluid" alt="Случайное изображение собаки">
+                            </td>
+                            <td class="align-middle">
+                                <a href="tel:{{ contact.user.phone }}" class="text-decoration-none">
+                                    {{ contact.user.phone }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">Контакты не найдены</h4>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

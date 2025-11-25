@@ -1,0 +1,321 @@
+{% extends "pet_shop/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .last-item-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .last-item-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid #3498db;
+        transition: transform 0.3s ease;
+        margin-bottom: 30px;
+    }
+
+    .last-item-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .last-item-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .last-item-text {
+        color: #34495e;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        max-height: 3.2em; /* две строки */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .last-item-text.expanded {
+        max-height: none;
+    }
+
+    .show-more-btn {
+        display: inline-block;
+        background-color: #3498db;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .show-more-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .no-items-message {
+        text-align: center;
+        padding: 40px;
+        color: #7f8c8d;
+        font-style: italic;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    /* Баннеры */
+    .banner-fullwidth-section {
+        margin: 40px 0;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+
+    .banner-title {
+        text-align: center;
+        font-size: 20px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .banner-fullwidth-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 10px 20px;
+        scrollbar-width: thin;
+        scrollbar-color: #3498db #f1f1f1;
+    }
+
+    .banner-fullwidth-item {
+        flex: 0 0 auto;
+        width: calc(33.333% - 10px);
+        height: 62vh;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .banner-fullwidth-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .banner-fullwidth-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Секция новостей */
+    .news-section {
+        margin: 40px 0;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+    }
+
+    /* Каталог */
+    .catalog-section {
+        margin: 50px 0;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        color: #27ae60;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* Партнёры */
+    .partners-section {
+        margin: 50px 0;
+        padding: 30px 0;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+        padding: 0 30px;
+        align-items: center;
+    }
+
+    .partner-item {
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .partner-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .partner-logo {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background: white;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .partner-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="container last-item-container">
+
+    <!-- Баннеры -->
+    <div class="banner-fullwidth-section">
+        <h3 class="banner-title">Реклама</h3>
+        <div class="banner-fullwidth-container">
+            <div class="banner-fullwidth-item">
+                <img src="{% static 'pet_shop/images/banner/banner1.jpg' %}" class="banner-fullwidth-image">
+            </div>
+
+            <div class="banner-fullwidth-item">
+                <img src="{% static 'pet_shop/images/banner/banner2.jpg' %}" class="banner-fullwidth-image">
+            </div>
+
+            <div class="banner-fullwidth-item">
+                <img src="{% static 'pet_shop/images/banner/banner3.jpg' %}" class="banner-fullwidth-image">
+            </div>
+
+            <div class="banner-fullwidth-item">
+                <img src="{% static 'pet_shop/images/banner/banner4.jpg' %}" class="banner-fullwidth-image">
+            </div>
+
+            <div class="banner-fullwidth-item">
+                <img src="{% static 'pet_shop/images/banner/banner5.jpg' %}" class="banner-fullwidth-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Новости -->
+    <div class="news-section">
+        <h2 class="section-title">Последние новости</h2>
+        {% if last %}
+            <div class="last-item-card">
+                <h3 class="last-item-title">{{ last.title }}</h3>
+                <form method="get">
+                    {% if request.GET.show == "full" %}
+                        <p class="last-item-text expanded">
+                            {{ last.text }}
+                            <b>Жирный текст</b>, <em>акцентированный текст</em>, <i>курсивный текст</i>,
+                            <s>перечеркнутый текст</s>, <strong>важный текст</strong>, <u>подчеркнутый текст</u>,
+                            <small>мелкий текст</small>, H<sub>2</sub>O, E=mc<sup>2</sup>,
+                            <code>код программы</code>, <var>переменная</var>, <samp>вывод программы</samp>,
+                            <kbd>Ctrl+C</kbd>, <abbr title="HyperText Markup Language">HTML</abbr>,
+                            <dfn>термин</dfn>, <q cite="https://example.com">цитата</q>,
+                            <cite>название произведения</cite>, <time datetime="2023-10-01">1 октября 2023</time>,
+                            <mark>выделенный текст</mark>.
+                        </p>
+                        <button type="submit" class="show-more-btn">Скрыть</button>
+                    {% else %}
+                        <p class="last-item-text">{{ last.text|truncatechars:200 }}</p>
+                        <button type="submit" name="show" value="full" class="show-more-btn">Подробнее</button>
+                    {% endif %}
+                </form>
+                <p class="last-item-date">{{ last.date }}</p>
+            </div>
+        {% else %}
+            <div class="no-items-message">Нет доступных записей для отображения</div>
+        {% endif %}
+    </div>
+
+    <!-- Каталог -->
+    <div class="catalog-section">
+        <h2 class="section-title">Каталог товаров</h2>
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{% static product.pic.url %}" alt="{{ product.name }}">
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price">${{ product.price }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-items-message">Товары не найдены</div>
+        {% endif %}
+    </div>
+
+    <!-- Партнёры -->
+    <div class="partners-section">
+        <h2 class="section-title">Партнёры</h2>
+        <div class="partners-grid">
+            {% for partner in partners %}
+            <div class="partner-item">
+                <a href="{{ partner.website }}" target="_blank" class="partner-link">
+                    <img src="{% static partner.logo.url %}" alt="{{ partner.name }}" class="partner-logo">
+                    <div class="partner-name">{{ partner.name }}</div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="no-items-message">Партнёры не найдены</div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

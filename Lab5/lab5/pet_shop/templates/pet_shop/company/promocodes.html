@@ -1,0 +1,140 @@
+{% extends "pet_shop/base.html" %}
+
+{% block content %}
+<style>
+    /* Основные стили страницы */
+    .promocodes-page {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .promocodes-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .promocodes-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: #3498db;
+    }
+
+    /* Стили карточек промокодов */
+    .promocodes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .promocode-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-top: 4px solid #e74c3c;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .promocode-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .promocode-number {
+        font-size: 22px;
+        font-weight: 700;
+        color: #e74c3c;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        background: #fdedec;
+        padding: 8px;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    .promocode-discount {
+        font-size: 28px;
+        font-weight: 700;
+        color: #27ae60;
+        margin: 15px 0;
+    }
+
+    .promocode-deadline {
+        color: #7f8c8d;
+        font-size: 14px;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px dashed #ddd;
+    }
+
+    .promocode-badge {
+        position: absolute;
+        top: 10px;
+        right: -30px;
+        background: #e74c3c;
+        color: white;
+        padding: 5px 30px;
+        transform: rotate(45deg);
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* Сообщение при отсутствии промокодов */
+    .no-promocodes {
+        text-align: center;
+        padding: 40px;
+        color: #7f8c8d;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .promocodes-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .promocode-card {
+            padding: 20px;
+        }
+    }
+</style>
+
+<div class="container promocodes-page">
+    <div class="promocodes">
+        <h3 class="promocodes-title">Актуальные промокоды</h3>
+
+        {% if promocodes %}
+        <div class="promocodes-grid">
+            {% for n in promocodes %}
+            <div class="promocode-card">
+                <div class="promocode-badge">Акция</div>
+                <div class="promocode-number">{{ n.number }}</div>
+                <div class="promocode-discount">-{{ n.discount }}%</div>
+                <div class="promocode-deadline">Действует до: {{ n.deadline }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-promocodes">
+            В данный момент нет активных промокодов
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
