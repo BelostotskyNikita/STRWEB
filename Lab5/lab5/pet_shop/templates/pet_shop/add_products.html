@@ -1,8 +1,9 @@
 {% extends "pet_shop/base.html" %}
 {% load static %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/add_products.css' %}">
+{% endblock %}
 {% block content %}
-<style>
     .product-form-container {
         max-width: 800px;
         margin: 30px auto;
@@ -73,7 +74,6 @@
         margin-bottom: 20px;
         font-weight: 500;
     }
-</style>
 
 <div class="product-form-container">
     <h2 class="form-title">Добавить новый товар</h2>

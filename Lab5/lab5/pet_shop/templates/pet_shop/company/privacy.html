@@ -1,7 +1,147 @@
 {% extends "pet_shop/base.html" %}
-
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/privacy.css' %}">
+{% endblock %}
 {% block content %}
-<div class="container">
-    
+
+<div class="container privacy-container">
+    <h1 class="privacy-title">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">1. Общие положения</h2>
+        <p class="privacy-text">
+            Настоящая Политика конфиденциальности (далее — "Политика") регулирует порядок обработки и защиты персональных данных пользователей сайта <strong>Pet Shop</strong> (далее — "Сайт" или "Мы") при использовании сайта и сопутствующих услуг.
+        </p>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">2. Какие данные мы собираем</h2>
+        
+        <h3 class="privacy-section-subtitle">2.1. Персональные данные, которые вы предоставляете:</h3>
+        <ul class="privacy-list">
+            <li>Фамилия, имя, отчество</li>
+            <li>Контактный телефон</li>
+            <li>Адрес электронной почты</li>
+            <li>Адрес доставки товаров</li>
+            <li>Платежные реквизиты (при совершении покупок)</li>
+            <li>Данные о питомцах (вид, кличка, возраст, особенности) для персонализации сервиса</li>
+        </ul>
+
+        <h3 class="privacy-section-subtitle">2.2. Данные, собираемые автоматически:</h3>
+        <ul class="privacy-list">
+            <li>IP-адрес</li>
+            <li>Тип браузера и операционной системы</li>
+            <li>Данные о посещенных страницах и времени на сайте</li>
+            <li>Источник перехода на сайт</li>
+            <li>Cookie-файлы и аналогичные технологии</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">3. Цели обработки персональных данных</h2>
+        <p class="privacy-text">Мы обрабатываем ваши данные для:</p>
+        <ul class="privacy-list">
+            <li>Оформления и обработки заказов</li>
+            <li>Доставки товаров</li>
+            <li>Обеспечения связи с клиентами</li>
+            <li>Информирования о акциях, скидках и новинках</li>
+            <li>Улучшения качества обслуживания</li>
+            <li>Проведения маркетинговых исследований</li>
+            <li>Выполнения обязательств по договорам купли-продажи</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">4. Правовые основания обработки</h2>
+        <p class="privacy-text">Обработка персональных данных осуществляется на следующих основаниях:</p>
+        <ul class="privacy-list">
+            <li>Согласие субъекта персональных данных</li>
+            <li>Заключение и исполнение договора</li>
+            <li>Выполнение требований законодательства РФ</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">5. Срок хранения данных</h2>
+        <p class="privacy-text">Мы храним ваши персональные данные:</p>
+        <ul class="privacy-list">
+            <li>До достижения целей обработки</li>
+            <li>До отзыва согласия на обработку</li>
+            <li>В течение сроков, установленных законодательством РФ</li>
+            <li>Данные о совершенных покупках: 5 лет (для бухгалтерского учета)</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">6. Защита персональных данных</h2>
+        <p class="privacy-text">Мы принимаем необходимые организационные и технические меры для защиты ваших данных:</p>
+        <ul class="privacy-list">
+            <li>Использование SSL-шифрования</li>
+            <li>Ограничение доступа к данным</li>
+            <li>Регулярное обновление систем защиты</li>
+            <li>Обучение сотрудников вопросам конфиденциальности</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">7. Передача данных третьим лицам</h2>
+        <p class="privacy-text">Мы можем передавать ваши данные:</p>
+        <ul class="privacy-list">
+            <li>Курьерским службам (для доставки заказов)</li>
+            <li>Платежным системам (для обработки платежей)</li>
+            <li>По требованию уполномоченных государственных органов</li>
+            <li>Только в объеме, необходимом для оказания услуг</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">8. Cookies и аналогичные технологии</h2>
+        <p class="privacy-text">Наш сайт использует:</p>
+        <ul class="privacy-list">
+            <li><strong>Необходимые cookies</strong> — для работы основных функций сайта</li>
+            <li><strong>Аналитические cookies</strong> — для анализа посещаемости и улучшения сайта</li>
+            <li><strong>Маркетинговые cookies</strong> — для показа релевантной рекламы</li>
+        </ul>
+        <p class="privacy-text">
+            Вы можете отключить cookies в настройках браузера, но это может ограничить функциональность сайта.
+        </p>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">9. Права пользователей</h2>
+        <p class="privacy-text">Вы имеете право:</p>
+        <ul class="privacy-list">
+            <li>На доступ к вашим персональным данным</li>
+            <li>На исправление неточных данных</li>
+            <li>На удаление ваших данных ("право на забвение")</li>
+            <li>На отзыв согласия на обработку данных</li>
+            <li>На ограничение обработки данных</li>
+            <li>На получение данных в структурированном формате</li>
+        </ul>
+        <p class="privacy-text">
+            Для реализации прав отправьте запрос на email: <a href="mailto:info@petshop.ru" class="privacy-email">info@petshop.ru</a>
+        </p>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">10. Обработка данных несовершеннолетних</h2>
+        <p class="privacy-text">
+            Мы не собираем данные несовершеннолетних без согласия родителей или законных представителей. Если вам стало известно о предоставлении нам данных ребенка без согласия родителей, сообщите нам для удаления информации.
+        </p>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="privacy-section-title">11. Изменения в Политике</h2>
+        <p class="privacy-text">
+            Мы оставляем за собой право изменять настоящую Политику. Все изменения будут опубликованы на этой странице с указанием даты последнего обновления.
+        </p>
+        <div class="privacy-highlight">
+            <p class="privacy-text" style="margin: 0;">
+                <strong>Дата последнего обновления:</strong> {{ "now"|date:"d.m.Y" }}
+            </p>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

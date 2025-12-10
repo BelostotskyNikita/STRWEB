@@ -26,16 +26,20 @@ def index(request):
     last = company_usecases.get_last_news()
     partners = models.Partner.objects.filter(is_active=True)
     products = models.Product.objects.all()
+    slides = models.Slide.objects.filter(is_active=True)
+    slider_settings = models.SliderSettings.load()
 
     return render(request, 'pet_shop/index.html', {
         'last': last,
         'partners': partners,
         'products': products,
+        'slides': slides,
+        'slider_settings': slider_settings,
     })
 
 
 def about(request):
-    company = models.CompanyInfo.objects.first()  # Берём первую запись (если одна компания)
+    company = models.CompanyInfo.objects.first()
     return render(request, 'pet_shop/company/about.html', {'company': company})
 
 
@@ -52,12 +56,37 @@ def glossary(request):
 
 
 def contacts(request):
-    response = requests.get('https://dog.ceo/api/breeds/image/random')
-    if response.status_code == 200:
-        data = response.json()
-        random_dog_url = data.get('message')
+    random_dog_url = None
+    try:
+        response = requests.get('https://dog.ceo/api/breeds/image/random')
+        if response.status_code == 200:
+            data = response.json()
+            random_dog_url = data.get('message')
+    except Exception:
+        pass
+    
+    employees = models.ServiceUser.objects.filter(is_employee=True).select_related('user')
+    
+    job_descriptions = [
+        "Менеджер по продажам. Опыт работы с клиентами более 5 лет. Помогает подобрать оптимальные товары для ваших питомцев.",
+        "Специалист по работе с клиентами. Консультирует по вопросам ухода за животными и подбора кормов.",
+        "Консультант по подбору товаров. Эксперт в области аквариумистики и террариумистики.",
+        "Администратор магазина. Координирует работу магазина и обеспечивает качественное обслуживание клиентов.",
+        "Ветеринарный консультант. Оказывает профессиональные консультации по здоровью и питанию животных.",
+        "Маркетолог. Разрабатывает маркетинговые стратегии и продвигает бренд компании.",
+        "Логист. Отвечает за доставку товаров и управление складскими запасами.",
+        "Финансовый менеджер. Управляет финансовыми потоками и анализирует экономические показатели."
+    ]
+    
+    employees_list = list(employees)
+    for idx, employee in enumerate(employees_list):
+        if not employee.address:
+            employee.job_description = job_descriptions[idx % len(job_descriptions)]
+        else:
+            employee.job_description = employee.address
+    
     context = {
-        'contacts': company_usecases.get_contacts(),
+        'employees': employees_list,
         'random_dog_url': random_dog_url
     }
     return render(request, 'pet_shop/company/contacts.html', context)
@@ -86,7 +115,15 @@ def add_review(request):
 
 
 def promocodes(request):
-    return render(request, 'pet_shop/company/promocodes.html', {'promocodes': company_usecases.get_promocodes()})
+    from django.utils import timezone
+    now = timezone.now()
+    all_coupons = models.Coupon.objects.all()
+    active_coupons = all_coupons.filter(deadline__gte=now)
+    archived_coupons = all_coupons.filter(deadline__lt=now)
+    return render(request, 'pet_shop/company/promocodes.html', {
+        'active_coupons': active_coupons,
+        'archived_coupons': archived_coupons
+    })
 
 
 def login(request):
@@ -178,17 +215,15 @@ def catalog(request):
                 if created:
                     cart_item.quantity = 1
                 else:
-                    # не превышаем доступное количество
                     if cart_item.quantity < product.quantity + cart_item.quantity:
                         cart_item.quantity += 1
                 cart_item.save()
 
-                # уменьшаем количество в каталоге
                 product.quantity -= 1
                 product.save()
 
         except Exception as e:
-            print("Ошибка при добавлении в корзину:", e)
+            pass
 
     products = models.Product.objects.all()
     return render(request, 'pet_shop/catalog.html', {'products': products})
@@ -197,7 +232,7 @@ def catalog(request):
 @login_required
 def update_cart_item_quantity(request):
     cart_item_id = request.POST.get('cart_item_id')
-    action = request.POST.get('action')  # 'increase' или 'decrease'
+    action = request.POST.get('action')
 
     try:
         cart_item = models.ShoppingCart.objects.get(id=cart_item_id, user__user=request.user)
@@ -271,24 +306,19 @@ def buy_product(request):
 @login_required
 def statistics_view(request):
     if request.user.serviceuser.is_employee:
-        # Получаем текущую дату
-
         today = datetime.now()
         current_year = today.year
         current_month = today.month
         current_day = today.day
 
-        # Создаем календарь
-        cal = calendar.Calendar(firstweekday=0)  # 0 = Monday
+        cal = calendar.Calendar(firstweekday=0)
         month_days = cal.monthdayscalendar(current_year, current_month)
 
-        # Преобразуем данные календаря для шаблона
         calendar_weeks = []
         for week in month_days:
             calendar_week = []
             for day in week:
                 if day == 0:
-                    # Это день из соседнего месяца, оставляем пустым
                     calendar_week.append({
                         'day': '',
                         'month': 'other'
@@ -300,15 +330,12 @@ def statistics_view(request):
                     })
             calendar_weeks.append(calendar_week)
 
-        # Название текущего месяца
         month_names = [
             "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
         ]
         current_month_name = month_names[current_month - 1]
 
-        # Данные для диаграмм
-        # 1. Самый продаваемый продукт за текущий месяц
         current_month_start = datetime(current_year, current_month, 1)
         next_month_start = datetime(current_year, current_month + 1, 1) if current_month < 12 else datetime(
             current_year + 1, 1, 1)
@@ -320,15 +347,12 @@ def statistics_view(request):
             total_sold=Sum('quantity')
         ).order_by('-total_sold')[:5]
 
-        # 2. Продажи по месяцам за последний год (исправленный запрос для SQLite)
         one_year_ago = today - timedelta(days=365)
 
-        # Получаем все заказы за последний год
         last_year_orders = models.Order.objects.filter(
             created_at__gte=one_year_ago
         )
 
-        # Собираем данные по месяцам вручную
         monthly_sales_data = []
         for i in range(12):
             month = current_month - i
@@ -337,7 +361,6 @@ def statistics_view(request):
                 month += 12
                 year -= 1
 
-            # Создаем даты для начала и конца месяца
             if month == 12:
                 month_start = datetime(year, month, 1)
                 month_end = datetime(year + 1, 1, 1)
@@ -345,7 +368,6 @@ def statistics_view(request):
                 month_start = datetime(year, month, 1)
                 month_end = datetime(year, month + 1, 1)
 
-            # Считаем заказы за месяц
             month_orders = last_year_orders.filter(
                 created_at__gte=month_start,
                 created_at__lt=month_end
@@ -363,7 +385,6 @@ def statistics_view(request):
 
         monthly_sales_data.reverse()
 
-        # Находим максимальное значение для масштабирования диаграммы
         monthly_sales_max = max([ms['total_orders'] for ms in monthly_sales_data]) if monthly_sales_data else 1
 
         context = {
@@ -377,13 +398,11 @@ def statistics_view(request):
             'reviews': models.Review.objects.select_related('customer__user').all(),
             'coupons': models.Coupon.objects.all(),
             'vacancies': models.Vacancy.objects.select_related('info').all(),
-            # Данные для календаря
             'calendar_weeks': calendar_weeks,
             'current_month_name': current_month_name,
             'current_year': current_year,
             'current_month': current_month,
             'current_day': current_day,
-            # Данные для диаграмм
             'top_products': top_products,
             'monthly_sales': monthly_sales_data,
             'monthly_sales_max': monthly_sales_max,

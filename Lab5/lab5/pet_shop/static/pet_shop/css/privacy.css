@@ -1,0 +1,118 @@
+.privacy-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.8;
+    color: #333;
+}
+
+.privacy-title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.privacy-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    border-radius: 2px;
+}
+
+.privacy-section {
+    margin-bottom: 35px;
+}
+
+.privacy-section-title {
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    padding-left: 15px;
+    border-left: 4px solid #3498db;
+}
+
+.privacy-section-subtitle {
+    color: #34495e;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    margin-top: 20px;
+}
+
+.privacy-text {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.privacy-list {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+
+.privacy-list li {
+    margin-bottom: 10px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.privacy-list-item {
+    margin-bottom: 8px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.privacy-email {
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.privacy-email:hover {
+    text-decoration: underline;
+}
+
+.privacy-highlight {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .privacy-container {
+        padding: 30px 15px;
+    }
+
+    .privacy-title {
+        font-size: 26px;
+        margin-bottom: 30px;
+    }
+
+    .privacy-section-title {
+        font-size: 20px;
+    }
+
+    .privacy-section-subtitle {
+        font-size: 16px;
+    }
+
+    .privacy-text {
+        font-size: 14px;
+    }
+}
+

@@ -36,8 +36,21 @@ class Vacancy(models.Model):
 
 
 class Contact(models.Model):
-    user = models.ForeignKey(ServiceUser, on_delete=models.CASCADE)
-    pic = models.ImageField(upload_to='pet_shop/images/', null=True)
+    full_name = models.CharField(max_length=255, verbose_name='Full Name', default='')
+    email = models.EmailField(verbose_name='Email', default='')
+    phone = models.CharField(max_length=50, verbose_name='Phone', default='')
+    description = models.TextField(verbose_name='Job Description', default='')
+    pic = models.ImageField(upload_to='pet_shop/images/contacts/', blank=True, null=True, verbose_name='Photo')
+    url = models.URLField(blank=True, null=True, verbose_name='URL')
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    
+    class Meta:
+        ordering = ['full_name']
+        verbose_name = 'Contact'
+        verbose_name_plural = 'Contacts'
+    
+    def __str__(self):
+        return self.full_name or 'Contact'
 
 
 class CompanyInfo(models.Model):
@@ -142,3 +155,44 @@ class Partner(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Slide(models.Model):
+    image = models.ImageField(upload_to='pet_shop/images/banner/', verbose_name="Изображение")
+    caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Подпись")
+    link = models.URLField(blank=True, null=True, verbose_name="Ссылка")
+    order = models.IntegerField(default=0, verbose_name="Порядок отображения")
+    is_active = models.BooleanField(default=True, verbose_name="Активный")
+
+    class Meta:
+        verbose_name = "Слайд"
+        verbose_name_plural = "Слайды"
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Слайд {self.order + 1}: {self.caption or 'Без подписи'}"
+
+
+class SliderSettings(models.Model):
+    loop = models.BooleanField(default=True, verbose_name="Зацикливание (loop)")
+    navs = models.BooleanField(default=True, verbose_name="Стрелки навигации (navs)")
+    pags = models.BooleanField(default=True, verbose_name="Пагинация (pags)")
+    auto = models.BooleanField(default=True, verbose_name="Автопереключение (auto)")
+    stop_mouse_hover = models.BooleanField(default=True, verbose_name="Остановка при наведении (stopMouseHover)")
+    delay = models.IntegerField(default=5, verbose_name="Задержка в секундах (delay)")
+
+    class Meta:
+        verbose_name = "Настройки слайдера"
+        verbose_name_plural = "Настройки слайдера"
+
+    def __str__(self):
+        return "Настройки слайдера"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj

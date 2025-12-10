@@ -1,0 +1,318 @@
+.reviews-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reviews-title {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 32px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.reviews-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    border-radius: 2px;
+}
+
+.review-form {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #2c3e50;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label:hover {
+    color: #3498db;
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    color: #2c3e50;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+input:hover {
+    border-color: #3498db;
+    font-weight: 500;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    font-weight: 500;
+}
+
+input:active {
+    border-color: #2980b9;
+}
+
+input:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    font-style: italic;
+}
+
+input:required {
+    border-left: 3px solid #e74c3c;
+}
+
+input:required:valid {
+    border-left-color: #27ae60;
+}
+
+input:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    font-weight: 600;
+}
+
+input:valid:not(:placeholder-shown) {
+    border-color: #27ae60;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    color: #2c3e50;
+    min-height: 120px;
+    resize: vertical;
+    box-sizing: border-box;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+textarea:hover {
+    border-color: #3498db;
+    font-weight: 500;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    font-weight: 500;
+}
+
+textarea:active {
+    border-color: #2980b9;
+}
+
+textarea:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    font-style: italic;
+}
+
+textarea:required {
+    border-left: 3px solid #e74c3c;
+}
+
+textarea:required:valid {
+    border-left-color: #27ae60;
+}
+
+textarea:invalid:not(:placeholder-shown) {
+    border-color: #e74c3c;
+    font-weight: 600;
+}
+
+textarea:valid:not(:placeholder-shown) {
+    border-color: #27ae60;
+}
+
+button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background: #2980b9;
+    font-weight: 700;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+    font-weight: 700;
+}
+
+button:active {
+    background: #21618c;
+    transform: translateY(0);
+    font-weight: 800;
+}
+
+button:disabled {
+    background: #bdc3c7;
+    color: #7f8c8d;
+    cursor: not-allowed;
+    font-style: italic;
+    font-weight: 400;
+}
+
+form {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-author {
+    font-weight: 600;
+    font-size: 18px;
+    color: #2c3e50;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.review-rating {
+    color: #f39c12;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.review-text {
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.review-date {
+    color: #7f8c8d;
+    font-size: 14px;
+    text-align: right;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: #fadbd8;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-left: 4px solid #e74c3c;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 60px 40px;
+    color: #7f8c8d;
+    font-size: 18px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #bdc3c7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .reviews-container {
+        padding: 15px;
+    }
+
+    .reviews-title {
+        font-size: 26px;
+    }
+
+    .review-form {
+        padding: 20px;
+    }
+
+    input,
+    textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+}
+

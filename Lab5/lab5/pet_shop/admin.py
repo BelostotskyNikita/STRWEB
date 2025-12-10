@@ -55,3 +55,20 @@ class VacancyInfoAdmin(admin.ModelAdmin):
 @admin.register(models.Partner)
 class PartnerAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.Slide)
+class SlideAdmin(admin.ModelAdmin):
+    list_display = ['order', 'caption', 'is_active', 'link']
+    list_display_links = ['caption']
+    list_editable = ['order', 'is_active']
+    ordering = ['order']
+
+
+@admin.register(models.SliderSettings)
+class SliderSettingsAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not models.SliderSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        return False

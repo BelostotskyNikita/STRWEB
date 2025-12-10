@@ -1,46 +1,15 @@
 {% extends "pet_shop/base.html" %}
-
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/about.css' %}">
+{% endblock %}
 {% block content %}
-    <style>
-        /* Основные стили контейнера */
-        .about-container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
 
-        /* Стили для информационного блока */
-        .info-block {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 25px;
-            line-height: 1.6;
-            color: #333;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .info-block p {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        /* Сообщение при отсутствии информации */
-        .no-info {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            font-style: italic;
-        }
-    </style>
-
-    <<div class="container about-container">
+<div class="container about-container">
         {% if company %}
             {% if company.logo %}
-                <div style="text-align:center; margin-bottom: 20px;">
-                    <img src="{% static company.logo.url %}" alt="Логотип" style="max-height:120px;">
+                <div class="logo-center">
+                    <img src="{% static company.logo.url %}" alt="Логотип">
                 </div>
             {% endif %}
 
@@ -52,33 +21,41 @@
             </div>
 
             {% if company.video %}
-                <div class="info-block">
+                <div class="info-block video-block">
                     <h3>Видео</h3>
-                    <video controls width="640">
-                        <source src="{% static company.video.url %}" type="video/mp4">
-                        Ваш браузер не поддерживает видео.
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls class="company-video">
+                            <source src="{% static company.video.url %}" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
                 </div>
             {% endif %}
 
             {% if company.history %}
-                <div class="info-block">
+                <div class="info-block history-block">
                     <h3>История по годам</h3>
-                    <p>{{ company.history|linebreaks }}</p>
+                    <div class="history-list">
+                        {{ company.history|linebreaks }}
+                    </div>
                 </div>
             {% endif %}
 
             {% if company.requisites %}
-                <div class="info-block">
+                <div class="info-block requisites-block">
                     <h3>Реквизиты</h3>
-                    <p>{{ company.requisites|linebreaks }}</p>
+                    <div class="requisites-content">
+                        {{ company.requisites|linebreaks }}
+                    </div>
                 </div>
             {% endif %}
 
             {% if company.certificate %}
-                <div class="info-block">
+                <div class="info-block certificate-block">
                     <h3>Сертификат</h3>
-                    <p>{{ company.certificate|linebreaks }}</p>
+                    <div class="certificate-content">
+                        {{ company.certificate|linebreaks }}
+                    </div>
                 </div>
             {% endif %}
         {% else %}

@@ -1,139 +1,93 @@
 {% extends "pet_shop/base.html" %}
-
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/contacts.css' %}">
+{% endblock %}
 {% block content %}
-<style>
-    /* Основные стили */
-    .contact-page {
-        background-color: #f8f9fa;
-        padding: 30px 0;
-    }
-
-    .contact-header {
-        color: #2c3e50;
-        font-weight: 700;
-        margin-bottom: 30px;
-        position: relative;
-        padding-bottom: 15px;
-    }
-
-    .contact-header:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: #3498db;
-    }
-
-    /* Стили таблицы */
-    .contact-table {
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .contact-table thead {
-        background: linear-gradient(135deg, #3498db, #2c3e50);
-        color: white;
-    }
-
-    .contact-table th {
-        font-weight: 600;
-        padding: 15px;
-        text-align: center;
-    }
-
-    .contact-table td {
-        padding: 15px;
-        vertical-align: middle;
-        text-align: center;
-        border-bottom: 1px solid #e9ecef;
-    }
-
-    .contact-table tr:hover {
-        background-color: rgba(52, 152, 219, 0.1);
-        transition: all 0.3s ease;
-    }
-
-    /* Стили для изображений */
-    .contact-img {
-        width: 250px;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-
-    .contact-img:hover {
-        transform: scale(1.03);
-    }
-
-    /* Адаптивность */
-    @media (max-width: 768px) {
-        .contact-table th,
-        .contact-table td {
-            padding: 10px;
-            font-size: 14px;
-        }
-
-        .contact-img {
-            width: 150px;
-            height: 150px;
-        }
-    }
-
-    /* Анимация загрузки */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .table-responsive {
-        animation: fadeIn 0.5s ease-out;
-    }
-</style>
 
 <div class="container contact-page">
-    {% if contacts %}
-    <div class="row mt-4">
-        <div class="col-12">
-            <h3 class="contact-header">Наши контакты</h3>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover contact-table">
-                    <thead>
-                        <tr>
-                            <th>Пользователь</th>
-                            <th>Фото</th>
-                            <th>Телефон</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for contact in contacts %}
-                        <tr>
-                            <td class="align-middle">{{ contact.user.user }}</td>
-                            <td>
-                                <img src="{{ random_dog_url }}" class="contact-img img-fluid" alt="Случайное изображение собаки">
-                            </td>
-                            <td class="align-middle">
-                                <a href="tel:{{ contact.user.phone }}" class="text-decoration-none">
-                                    {{ contact.user.phone }}
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+    <h3 class="contact-header">Наши контакты</h3>
+    
+    <!-- Отладочная информация -->
+    {% if employees %}
+        <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Найдено сотрудников: {{ employees|length }}</p>
+    {% endif %}
+    
+    {% if employees and employees|length > 0 %}
+    <div class="contacts-container">
+        {% for employee in employees %}
+        <div class="contact-card">
+            <div class="contact-card-inner">
+                <!-- Фото сотрудника -->
+                <div class="contact-photo-wrapper">
+                    {% if employee.pic %}
+                        <img src="{{ employee.pic.url }}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                    {% else %}
+                        {% if forloop.counter0 == 0 or forloop.counter0 == 3 or forloop.counter0 == 6 or forloop.counter0 == 9 or forloop.counter0 == 12 %}
+                            <img src="{% static 'pet_shop/images/avatar/ava_6.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                        {% elif forloop.counter0 == 1 or forloop.counter0 == 4 or forloop.counter0 == 7 or forloop.counter0 == 10 or forloop.counter0 == 13 %}
+                            <img src="{% static 'pet_shop/images/avatar/ava_7.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                        {% else %}
+                            <img src="{% static 'pet_shop/images/avatar/ava_8.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <!-- Информация о сотруднике -->
+                <div class="contact-info">
+                    <h4 class="contact-name">
+                        {{ employee.user.get_full_name|default:employee.user.username }}
+                    </h4>
+                    
+                    <!-- Описание выполняемых работ -->
+                    <div class="contact-description">
+                        {{ employee.job_description }}
+                    </div>
+
+                    <!-- Контактные данные -->
+                    <div class="contact-details">
+                        <!-- Телефон -->
+                        {% if employee.phone %}
+                        <div class="contact-detail-item">
+                            <span class="contact-icon">📞</span>
+                            <span class="contact-text">
+                                {{ employee.phone }}
+                            </span>
+                        </div>
+                        {% else %}
+                        <div class="contact-detail-item" style="opacity: 0.5;">
+                            <span class="contact-icon">📞</span>
+                            <span class="contact-text">Телефон не указан</span>
+                        </div>
+                        {% endif %}
+
+                        <!-- Email -->
+                        {% if employee.user.email %}
+                        <div class="contact-detail-item">
+                            <span class="contact-icon">✉️</span>
+                            <span class="contact-text">
+                                {{ employee.user.email }}
+                            </span>
+                        </div>
+                        {% else %}
+                        <div class="contact-detail-item" style="opacity: 0.5;">
+                            <span class="contact-icon">✉️</span>
+                            <span class="contact-text">Email не указан</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
     {% else %}
-    <div class="row">
-        <div class="col-12 text-center py-5">
-            <h4 class="text-muted">Контакты не найдены</h4>
-        </div>
+    <div class="no-contacts">
+        <h4>Контакты не найдены</h4>
+        <p>На данный момент информация о сотрудниках отсутствует</p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">
+            Добавьте сотрудников через админ-панель Django и установите флаг is_employee=True
+        </p>
     </div>
     {% endif %}
 </div>

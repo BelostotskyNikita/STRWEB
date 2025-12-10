@@ -1,190 +1,30 @@
 {% extends "pet_shop/base.html" %}
-
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/glossary.css' %}">
+{% endblock %}
 {% block content %}
-<style>
-    /* Основные стили страницы */
-    .faq-container {
-        max-width: 800px;
-        margin: 30px auto;
-        padding: 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .faq-title {
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 30px;
-        font-weight: 600;
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    .faq-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 3px;
-        background: #3498db;
-    }
-
-    /* Стили карточек вопрос-ответ */
-    .faq-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .faq-item {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        border-left: 4px solid #3498db;
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-
-    .faq-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .faq-question {
-        font-size: 18px;
-        font-weight: 600;
-        color: #2c3e50;
-        padding: 20px;
-        margin: 0;
-        cursor: pointer;
-        position: relative;
-        padding-right: 60px;
-        transition: background-color 0.3s ease;
-    }
-
-    .faq-question:hover {
-        background-color: #f8f9fa;
-    }
-
-    .faq-question:before {
-        content: 'Q:';
-        color: #3498db;
-        font-weight: bold;
-        margin-right: 10px;
-    }
-
-    /* Стрелочка для индикации раскрытия */
-    .faq-question:after {
-        content: '▼';
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 12px;
-        color: #3498db;
-        transition: transform 0.3s ease;
-    }
-
-    /* Чекбокс для управления отображением ответа */
-    .faq-checkbox {
-        display: none;
-    }
-
-    .faq-answer {
-        color: #34495e;
-        line-height: 1.6;
-        padding: 0 20px;
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        position: relative;
-    }
-
-    .faq-answer:before {
-        content: 'A:';
-        color: #27ae60;
-        font-weight: bold;
-        margin-right: 10px;
-    }
-
-    /* Когда чекбокс отмечен, показываем ответ */
-    .faq-checkbox:checked ~ .faq-answer {
-        max-height: 500px;
-        padding: 0 20px 20px 20px;
-    }
-
-    .faq-checkbox:checked ~ .faq-question:after {
-        transform: translateY(-50%) rotate(180deg);
-    }
-
-    .faq-checkbox:checked ~ .faq-question {
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #e9ecef;
-    }
-
-    .faq-date {
-        color: #7f8c8d;
-        font-size: 13px;
-        text-align: right;
-        padding: 0 20px 15px 20px;
-        margin: 0;
-    }
-
-    /* Сообщение при отсутствии вопросов */
-    .no-faq {
-        text-align: center;
-        padding: 40px;
-        color: #7f8c8d;
-        background: #f8f9fa;
-        border-radius: 8px;
-    }
-
-    /* Адаптивность */
-    @media (max-width: 768px) {
-        .faq-question {
-            font-size: 16px;
-            padding: 15px;
-            padding-right: 50px;
-        }
-
-        .faq-question:after {
-            right: 15px;
-        }
-
-        .faq-checkbox:checked ~ .faq-answer {
-            padding: 0 15px 15px 15px;
-        }
-
-        .faq-date {
-            padding: 0 15px 10px 15px;
-        }
-    }
-</style>
 
 <div class="container faq-container">
     <div class="glossaries">
-        <h3 class="faq-title">Частые вопросы</h3>
+        <h3 class="faq-title">Словарь терминов и понятий</h3>
 
         {% if glossaries %}
         <div class="faq-list">
             {% for n in glossaries %}
             <div class="faq-item">
-                <!-- Чекбокс должен быть ПЕРВЫМ элементом -->
                 <input type="checkbox" id="faq-{{ n.id }}" class="faq-checkbox">
 
-                <!-- Вопрос - кликабельный label для чекбокса -->
                 <label for="faq-{{ n.id }}" class="faq-question">
-                    {{ n.text }}
+                    <span class="faq-question-text">{{ n.text }}</span>
+                    <span class="faq-date-badge" title="Дата добавления: {{ n.date|date:"d.m.Y H:i" }}">
+                        {{ n.date|date:"d.m.Y" }}
+                    </span>
                 </label>
 
-                <!-- Ответ -->
                 <div class="faq-answer">
                     {{ n.answer|linebreaks }}
                 </div>
-
-                <!-- Дата -->
-                <p class="faq-date">{{ n.date|date:"d.m.Y" }}</p>
             </div>
             {% endfor %}
         </div>
