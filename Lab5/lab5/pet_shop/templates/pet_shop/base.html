@@ -25,11 +25,21 @@
 
         <div class="auth-links">
             {% if user.is_authenticated %}
+                <span class="theme-label">Тёмная тема</span>
+                <label class="theme-toggle">
+                    <input type="checkbox" class="theme-toggle-input" aria-label="Переключить тему">
+                    <span class="theme-toggle-slider"></span>
+                </label>
                 <a href="{% url 'pet_shop:client_dashboard' %}">Личный кабинет</a>
                 <a href="{% url 'pet_shop:logout' %}">Выйти</a>
             {% else %}
                 <a href="{% url 'pet_shop:login' %}">Войти</a>
                 <a href="{% url 'pet_shop:signup' %}">Регистрация</a>
+                <span class="theme-label">Тёмная тема</span>
+                <label class="theme-toggle">
+                    <input type="checkbox" class="theme-toggle-input" aria-label="Переключить тему">
+                    <span class="theme-toggle-slider"></span>
+                </label>
             {% endif %}
         </div>
     </div>
@@ -44,6 +54,8 @@
         <a href="{% url 'pet_shop:reviews' %}">Отзывы</a>
         <a href="{% url 'pet_shop:promocodes' %}">Промокоды</a>
         <a href="{% url 'pet_shop:catalog' %}">Каталог</a>
+        <a href="{% url 'pet_shop:employees_table' %}">Таблица сотрудников</a>
+        <a href="{% url 'pet_shop:form_generator' %}">Доп. задания</a>
     </div>
 
     <div class="content">
@@ -51,5 +63,6 @@
     </div>
 
     {% block extra_js %}{% endblock %}
+    <script src="{% static 'pet_shop/js/theme-toggle.js' %}"></script>
 </body>
 </html>

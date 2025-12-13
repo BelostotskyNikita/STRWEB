@@ -6,7 +6,19 @@
 {% block content %}
 <div class="container news-page">
     <div class="news" itemscope itemtype="https://schema.org/CollectionPage">
-        <h3 class="news-title" itemprop="name">Последние новости</h3>
+        <div class="news-header-section">
+            <h3 class="news-title" itemprop="name">Последние новости</h3>
+            <div class="speech-controls">
+                <button id="speech-toggle-btn" class="speech-btn">
+                    <span id="speech-icon">🔊</span>
+                    <span id="speech-text">Включить озвучку</span>
+                </button>
+                <button id="stop-speech-btn" class="speech-btn stop-btn" style="display: none;">
+                    <span>⏹️</span>
+                    <span>Остановить</span>
+                </button>
+            </div>
+        </div>
 
         {% if news %}
         <div class="news-container">
@@ -18,7 +30,12 @@
                 <div class="news-content">
                     <div class="news-header">
                         <h4 class="news-title-text" itemprop="headline">{{ n.title }}</h4>
-                        <span class="news-date" itemprop="datePublished">{{ n.date|date:"d.m.Y H:i" }}</span>
+                        <div class="news-header-right">
+                            <span class="news-date" itemprop="datePublished">{{ n.date|date:"d.m.Y H:i" }}</span>
+                            <button class="read-news-btn" data-news-id="{{ n.id }}" data-news-title="{{ n.title }}" data-news-text="{{ n.text|escape }}">
+                                🔊 Озвучить
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Чекбокс должен быть ПЕРЕД элементами, которыми он управляет -->
@@ -52,4 +69,8 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'pet_shop/js/speech-synthesis.js' %}"></script>
 {% endblock %}

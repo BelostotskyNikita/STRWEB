@@ -2,18 +2,20 @@
     max-width: 500px;
     margin: 40px auto;
     padding: 30px;
-    background: #ffffff;
+    background: var(--header-bg, #ffffff);
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease;
 }
 
 .signup-title {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     margin-bottom: 30px;
     font-weight: 600;
     font-size: 28px;
+    transition: color 0.3s ease;
 }
 
 .error-message {
@@ -33,22 +35,25 @@
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     font-weight: 500;
     font-size: 16px;
+    transition: color 0.3s ease;
 }
 
 .form-group input {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
     font-size: 16px;
     transition: all 0.3s;
+    background-color: var(--light-bg, #fff);
+    color: var(--text-color, #333);
 }
 
 .form-group input:focus {
-    border-color: #3498db;
+    border-color: var(--primary-color, #3498db);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
     outline: none;
 }
@@ -56,7 +61,7 @@
 .submit-btn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #3498db, #2c3e50);
+    background: linear-gradient(135deg, var(--primary-color, #3498db), var(--text-color, #2c3e50));
     color: white;
     border: none;
     border-radius: 8px;
@@ -68,7 +73,7 @@
 }
 
 .submit-btn:hover {
-    background: linear-gradient(135deg, #2980b9, #1a252f);
+    background: linear-gradient(135deg, var(--secondary-color, #2980b9), var(--text-color, #1a252f));
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -81,22 +86,25 @@
     max-width: 500px;
     margin: 30px auto;
     padding: 20px;
-    background: #f8f9fa;
+    background: var(--light-bg, #f8f9fa);
     border-radius: 10px;
-    border-left: 5px solid #3498db;
+    border-left: 5px solid var(--primary-color, #3498db);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .joke-setup {
     font-size: 18px;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     margin-bottom: 10px;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .joke-punchline {
     font-size: 16px;
-    color: #7f8c8d;
+    color: var(--text-color, #7f8c8d);
     font-style: italic;
+    transition: color 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -110,6 +118,51 @@
 
 .joke-container {
     animation: fadeIn 0.8s ease-out;
+}
+
+.age-message {
+    margin-top: 8px;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+.age-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.age-message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.submit-btn:disabled {
+    background-color: #95a5a6 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.submit-btn:disabled:hover {
+    background-color: #95a5a6 !important;
+    transform: none;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .age-message.success {
+    background-color: #1e3a2e;
+    color: #4ade80;
+    border-color: #27ae60;
+}
+
+[data-theme="dark"] .age-message.warning {
+    background-color: #3d2e1e;
+    color: #fbbf24;
+    border-color: #f59e0b;
 }
 
 @media (max-width: 576px) {

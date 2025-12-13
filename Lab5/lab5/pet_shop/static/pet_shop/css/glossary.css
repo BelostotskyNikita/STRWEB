@@ -7,12 +7,13 @@
 
 .faq-title {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 40px;
     position: relative;
     padding-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .faq-title:after {
@@ -23,8 +24,9 @@
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, #3498db, #2ecc71);
+    background: linear-gradient(90deg, var(--primary-color, #3498db), var(--primary-color, #2ecc71));
     border-radius: 2px;
+    transition: background 0.3s ease;
 }
 
 .faq-list {
@@ -34,12 +36,12 @@
 }
 
 .faq-item {
-    background: #ffffff;
+    background: var(--header-bg, #ffffff);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     transition: all 0.3s ease;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--border-color, #e8e8e8);
 }
 
 .faq-item:hover {
@@ -57,27 +59,28 @@
     align-items: center;
     padding: 20px 25px;
     cursor: pointer;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, var(--light-bg, #f8f9fa) 0%, var(--header-bg, #ffffff) 100%);
     transition: all 0.3s ease;
     user-select: none;
     position: relative;
 }
 
 .faq-question:hover {
-    background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+    background: linear-gradient(135deg, var(--border-color, #e9ecef) 0%, var(--light-bg, #f8f9fa) 100%);
 }
 
 .faq-question-text {
     flex: 1;
     font-size: 18px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     line-height: 1.5;
     padding-right: 30px;
+    transition: color 0.3s ease;
 }
 
 .faq-date-badge {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, var(--primary-color, #3498db), var(--secondary-color, #2980b9));
     color: white;
     padding: 6px 14px;
     border-radius: 20px;
@@ -98,8 +101,8 @@
     position: absolute;
     right: 25px;
     font-size: 14px;
-    color: #3498db;
-    transition: transform 0.3s ease;
+    color: var(--primary-color, #3498db);
+    transition: transform 0.3s ease, color 0.3s ease;
     font-weight: bold;
 }
 
@@ -111,7 +114,7 @@
     max-height: 0;
     overflow: hidden;
     padding: 0 25px;
-    background: #ffffff;
+    background: var(--header-bg, #ffffff);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     line-height: 0;
@@ -122,15 +125,16 @@
     padding: 20px 25px 25px 25px;
     opacity: 1;
     line-height: 1.8;
-    border-top: 1px solid #e8e8e8;
-    background: #fafbfc;
+    border-top: 1px solid var(--border-color, #e8e8e8);
+    background: var(--light-bg, #fafbfc);
 }
 
 .faq-answer p {
     margin-bottom: 15px;
-    color: #555;
+    color: var(--text-color, #555);
     font-size: 15px;
     text-align: justify;
+    transition: color 0.3s ease;
 }
 
 .faq-answer p:last-child {
@@ -141,7 +145,8 @@
 .faq-answer ol {
     margin: 15px 0;
     padding-left: 25px;
-    color: #555;
+    color: var(--text-color, #555);
+    transition: color 0.3s ease;
 }
 
 .faq-answer li {
@@ -152,11 +157,12 @@
 .no-faq {
     text-align: center;
     padding: 60px 20px;
-    color: #7f8c8d;
+    color: var(--text-color, #7f8c8d);
     font-size: 18px;
-    background: #f8f9fa;
+    background: var(--light-bg, #f8f9fa);
     border-radius: 12px;
-    border: 2px dashed #dee2e6;
+    border: 2px dashed var(--border-color, #dee2e6);
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {

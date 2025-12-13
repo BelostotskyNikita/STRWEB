@@ -2,18 +2,20 @@
     max-width: 800px;
     margin: 30px auto;
     padding: 30px;
-    background: #fff;
+    background: var(--header-bg, #fff);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
 }
 
 .form-title {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     margin-bottom: 30px;
     font-weight: 600;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid var(--primary-color, #3498db);
     padding-bottom: 10px;
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .form-group {
@@ -24,15 +26,19 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
+    transition: color 0.3s ease;
 }
 
 .form-control {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color, #ddd);
     border-radius: 5px;
     font-size: 16px;
+    background-color: var(--light-bg, #fff);
+    color: var(--text-color, #333);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 textarea.form-control {
@@ -41,7 +47,7 @@ textarea.form-control {
 }
 
 .submit-btn {
-    background: #3498db;
+    background: var(--primary-color, #3498db);
     color: white;
     border: none;
     padding: 12px 30px;
@@ -52,7 +58,7 @@ textarea.form-control {
 }
 
 .submit-btn:hover {
-    background: #2980b9;
+    background: var(--secondary-color, #2980b9);
     transform: translateY(-2px);
 }
 

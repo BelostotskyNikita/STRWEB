@@ -1,17 +1,19 @@
 .vacancies-page {
     padding: 30px 0;
-    background-color: #f8f9fa;
+    background-color: var(--light-bg, #f8f9fa);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease;
 }
 
 .vacancies-title {
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     font-weight: 700;
     font-size: 32px;
     margin-bottom: 40px;
     text-align: center;
     position: relative;
     padding-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .vacancies-title:after {
@@ -37,12 +39,12 @@
     width: 48%;
     margin-right: 4%;
     margin-bottom: 30px;
-    background: white;
+    background: var(--header-bg, white);
     border-radius: 10px;
     padding: 25px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid var(--primary-color, #3498db);
     box-sizing: border-box;
 }
 
@@ -58,15 +60,16 @@
 .vacancy-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    border-left-color: #2980b9;
+    border-left-color: var(--secondary-color, #2980b9);
 }
 
 .vacancy-name {
     font-size: 22px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     margin-bottom: 12px;
     line-height: 1.3;
+    transition: color 0.3s ease;
 }
 
 .vacancy-salary {
@@ -79,10 +82,11 @@
 }
 
 .vacancy-info {
-    color: #555;
+    color: var(--text-color, #555);
     line-height: 1.8;
     text-align: justify;
     margin: 0;
+    transition: color 0.3s ease;
 }
 
 .vacancies-container::after {
@@ -121,12 +125,13 @@
 .no-vacancies {
     text-align: center;
     padding: 60px 40px;
-    color: #7f8c8d;
+    color: var(--text-color, #7f8c8d);
     font-size: 18px;
-    background: #f8f9fa;
+    background: var(--light-bg, #f8f9fa);
     border-radius: 12px;
-    border: 2px dashed #bdc3c7;
+    border: 2px dashed var(--border-color, #bdc3c7);
     clear: both;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @keyframes fadeInUp {

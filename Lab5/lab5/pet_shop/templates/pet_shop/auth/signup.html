@@ -37,9 +37,10 @@
         <div class="form-group">
             <label for="birthday">Дата рождения</label>
             <input id="birthday" name="birthday" type="date" value="{{ form_data.birthday|default:'' }}" required>
+            <div id="age-message" class="age-message"></div>
         </div>
 
-        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+        <button type="submit" class="submit-btn" id="submit-btn">Зарегистрироваться</button>
     </form>
 </div>
 
@@ -49,4 +50,8 @@
         <p class="joke-punchline">{{ fact.punchline }}</p>
     </div>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'pet_shop/js/signup.js' %}"></script>
 {% endblock %}

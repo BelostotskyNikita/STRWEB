@@ -27,4 +27,7 @@ urlpatterns = [
     path('statistics/', views.statistics_view, name='statistics'),
     path('add_product/', views.add_product, name='add_product'),
     path('update_cart_item_quantity/', views.update_cart_item_quantity, name='update_cart_item_quantity'),
+    path('employees_table/', views.employees_table, name='employees_table'),
+    path('api/employees/', views.get_employees_data, name='get_employees_data'),
+    path('form_generator/', views.form_generator, name='form_generator'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

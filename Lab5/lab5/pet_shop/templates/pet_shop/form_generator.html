@@ -1,0 +1,170 @@
+{% extends "pet_shop/base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/form_generator.css' %}">
+{% endblock %}
+{% block content %}
+<nav class="page-navigation">
+    <a href="#form-generator-section">Генератор форм</a>
+    <a href="#students-section">Поиск среди школьников</a>
+    <a href="#chart-section">Построение графиков</a>
+</nav>
+
+<div class="form-generator-container">
+    <h1 class="page-title">Дополнительные задания</h1>
+    
+    <div id="form-generator-section" class="section-anchor"></div>
+    <div class="generator-controls">
+        <button id="generate-btn" class="generate-btn">Создать текстовое поле</button>
+        <button id="clear-all-btn" class="clear-all-btn">Очистить страницу</button>
+    </div>
+
+    <div id="saved-fields-container" class="saved-fields-container">
+        <h2 class="saved-fields-title">Сохранённые поля</h2>
+        <div id="saved-fields-list" class="saved-fields-list">
+            <div class="empty-saved-message">Нет сохранённых полей</div>
+        </div>
+    </div>
+
+    <div id="fields-container" class="fields-container">
+    </div>
+
+    <div id="students-section" class="section-anchor"></div>
+    <div class="students-section">
+        <h2 class="section-title">Поиск однофамильцев в школе</h2>
+        
+        <div class="implementation-tabs">
+            <button class="tab-btn active" data-tab="prototype">Прототипное наследование</button>
+            <button class="tab-btn" data-tab="class">Class/Extends</button>
+        </div>
+
+        <div id="prototype-tab" class="tab-content active">
+            <div class="students-container">
+                <h3>Добавить ученика (Прототипное наследование)</h3>
+                <form id="prototype-student-form" class="student-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prototype-firstname">Имя:</label>
+                            <input type="text" id="prototype-firstname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prototype-lastname">Фамилия:</label>
+                            <input type="text" id="prototype-lastname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prototype-class">Класс:</label>
+                            <input type="text" id="prototype-class" placeholder="10А" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prototype-age">Возраст:</label>
+                            <input type="number" id="prototype-age" min="6" max="18" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="add-student-btn">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="students-actions">
+                    <button id="prototype-show-all" class="action-btn">Показать всех учеников</button>
+                    <button id="prototype-find-namesakes" class="action-btn">Найти однофамильцев</button>
+                    <button id="prototype-clear" class="action-btn clear-btn">Очистить</button>
+                </div>
+                <div id="prototype-results" class="results-container"></div>
+            </div>
+        </div>
+
+        <div id="class-tab" class="tab-content">
+            <div class="students-container">
+                <h3>Добавить ученика (Class/Extends)</h3>
+                <form id="class-student-form" class="student-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="class-firstname">Имя:</label>
+                            <input type="text" id="class-firstname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-lastname">Фамилия:</label>
+                            <input type="text" id="class-lastname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-class">Класс:</label>
+                            <input type="text" id="class-class" placeholder="10А" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-age">Возраст:</label>
+                            <input type="number" id="class-age" min="6" max="18" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="add-student-btn">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="students-actions">
+                    <button id="class-show-all" class="action-btn">Показать всех учеников</button>
+                    <button id="class-find-namesakes" class="action-btn">Найти однофамильцев</button>
+                    <button id="class-clear" class="action-btn clear-btn">Очистить</button>
+                </div>
+                <div id="class-results" class="results-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chart-section" class="section-anchor"></div>
+    <div class="chart-section">
+        <h2 class="section-title">График функции ln((x+1)/(x-1))</h2>
+        <p class="chart-description">
+            График разложения функции в ряд: ln((x+1)/(x-1)) = 2 * Σ(1/((2n+1)*x^(2n+1))), |x| > 1
+        </p>
+        
+        <div class="chart-controls">
+            <div class="chart-param-group">
+                <label for="x-min">X min:</label>
+                <input type="number" id="x-min" value="1.1" step="0.1" min="1.1">
+            </div>
+            <div class="chart-param-group">
+                <label for="x-max">X max:</label>
+                <input type="number" id="x-max" value="5" step="0.1" min="1.1">
+            </div>
+            <div class="chart-param-group">
+                <label for="n-terms">Количество членов ряда (n):</label>
+                <input type="number" id="n-terms" value="10" step="1" min="1" max="100">
+            </div>
+            <div class="chart-param-group">
+                <label for="points-count">Количество точек:</label>
+                <input type="number" id="points-count" value="50" step="5" min="10" max="200">
+            </div>
+            <button id="build-chart-btn" class="build-chart-btn">Построить график</button>
+            <button id="save-chart-btn" class="save-chart-btn" disabled>Сохранить график</button>
+        </div>
+
+        <div class="chart-wrapper">
+            <canvas id="function-chart"></canvas>
+        </div>
+
+        <div id="chart-data-table" class="chart-data-table" style="display: none;">
+            <h3>Таблица данных</h3>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>x</th>
+                        <th>F(x) (ряд)</th>
+                        <th>n</th>
+                        <th>Math F(x)</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.2.0/lib/browser/math.min.js"></script>
+<script src="{% static 'pet_shop/js/form_generator.js' %}"></script>
+<script src="{% static 'pet_shop/js/students.js' %}"></script>
+<script src="{% static 'pet_shop/js/chart-function.js' %}"></script>
+{% endblock %}
+

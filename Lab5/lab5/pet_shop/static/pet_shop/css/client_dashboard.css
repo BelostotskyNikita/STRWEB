@@ -3,17 +3,19 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: var(--light-bg, #f5f5f5);
+    color: var(--text-color, #333);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background: white;
+    background: var(--header-bg, white);
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .home-link,
@@ -64,6 +66,13 @@ body {
     color: #c62828;
     border: 1px solid #ef9a9a;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .error {
+    background-color: rgba(198, 40, 40, 0.2);
+    color: #ff6b6b;
+    border-color: rgba(198, 40, 40, 0.4);
 }
 
 .profile {
@@ -71,7 +80,8 @@ body {
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color, #eee);
+    transition: border-color 0.3s ease;
 }
 
 .profile img {
@@ -91,35 +101,41 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: var(--text-color, #555);
+    transition: color 0.3s ease;
 }
 
 .user-info input {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color, #ddd);
     border-radius: 4px;
-    background-color: #f9f9f9;
+    background-color: var(--light-bg, #f9f9f9);
+    color: var(--text-color, #333);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .balance {
     margin-bottom: 30px;
     padding: 15px;
-    background-color: #e3f2fd;
+    background-color: var(--light-bg, #e3f2fd);
     border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .balance h3 {
     margin-top: 0;
-    color: #1976d2;
+    color: var(--primary-color, #1976d2);
+    transition: color 0.3s ease;
 }
 
 .balance p {
     font-size: 24px;
     font-weight: bold;
     margin: 10px 0 0;
-    color: #0d47a1;
+    color: var(--primary-color, #0d47a1);
+    transition: color 0.3s ease;
 }
 
 .cart {
@@ -127,9 +143,10 @@ body {
 }
 
 .cart h3 {
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid var(--primary-color, #3498db);
     padding-bottom: 10px;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .cart ul {
@@ -140,10 +157,11 @@ body {
 .cart-item {
     padding: 15px;
     margin-bottom: 15px;
-    background-color: #f9f9f9;
+    background-color: var(--light-bg, #f9f9f9);
     border-radius: 4px;
-    border-left: 4px solid #3498db;
-    transition: transform 0.3s;
+    border-left: 4px solid var(--primary-color, #3498db);
+    transition: transform 0.3s, background-color 0.3s ease, border-color 0.3s ease;
+    color: var(--text-color, #333);
 }
 
 .cart-item:hover {

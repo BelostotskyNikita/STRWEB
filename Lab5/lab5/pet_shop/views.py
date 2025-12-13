@@ -8,6 +8,8 @@ from .forms import ProductForm
 from datetime import datetime, timedelta
 import calendar
 from django.db.models import Count, Sum
+from django.http import JsonResponse
+import json
 
 
 def add_product(request):
@@ -411,3 +413,36 @@ def statistics_view(request):
         return render(request, 'pet_shop/statistics.html', context)
     else:
         return redirect('pet_shop:client_dashboard')
+
+
+@login_required
+def employees_table(request):
+    if not request.user.serviceuser.is_employee:
+        return redirect('pet_shop:client_dashboard')
+    return render(request, 'pet_shop/employees_table.html')
+
+
+@login_required
+def get_employees_data(request):
+    if not request.user.serviceuser.is_employee:
+        return JsonResponse({'error': 'Access denied'}, status=403)
+    contacts = models.Contact.objects.all()
+    employees_data = []
+    for contact in contacts:
+        employees_data.append({
+            'id': contact.id,
+            'full_name': contact.full_name or '',
+            'email': contact.email or '',
+            'phone': contact.phone or '',
+            'description': contact.description or '',
+            'pic': contact.pic.url if contact.pic else '',
+            'url': contact.url or ''
+        })
+    return JsonResponse({'employees': employees_data}, safe=False)
+
+
+@login_required
+def form_generator(request):
+    if not request.user.serviceuser.is_employee:
+        return redirect('pet_shop:client_dashboard')
+    return render(request, 'pet_shop/form_generator.html')

@@ -1,20 +1,44 @@
 .privacy-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 40px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.8;
-    color: #333;
+    padding: 50px 40px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.9;
+    color: var(--text-color, #333);
+    background: var(--header-bg, #ffffff);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.privacy-container ::selection {
+    background-color: rgba(52, 152, 219, 0.8);
+    color: #fff;
+}
+
+::selection {
+    background-color: var(--primary-color, #3498db);
+    color: white;
 }
 
 .privacy-title {
     text-align: center;
-    color: #2c3e50;
-    font-size: 32px;
+    color: var(--text-color, #2c3e50);
+    font-size: 36px;
     font-weight: 700;
-    margin-bottom: 40px;
-    position: relative;
-    padding-bottom: 15px;
+    margin-bottom: 50px;
+    padding: 20px 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 2px solid var(--primary-color, #3498db);
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--light-bg, #f8f9fa) 0%, var(--header-bg, #ffffff) 100%);
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.privacy-title::selection {
+    background-color: var(--accent-color, #e74c3c);
+    color: white;
 }
 
 .privacy-title:after {
@@ -25,94 +49,228 @@
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, #3498db, #2ecc71);
+    background: linear-gradient(90deg, var(--primary-color, #3498db), var(--primary-color, #2ecc71));
     border-radius: 2px;
+    transition: background 0.3s ease;
 }
 
 .privacy-section {
-    margin-bottom: 35px;
+    margin-bottom: 40px;
+    padding: 25px 30px;
+    background: var(--light-bg, #fafbfc);
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #e9ecef);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.privacy-section::before {
+    content: "📄";
+    position: absolute;
+    left: -15px;
+    top: 25px;
+    font-size: 24px;
+    color: var(--primary-color, #3498db);
+    opacity: 0.3;
+    transition: color 0.3s ease;
 }
 
 .privacy-section-title {
-    color: #2c3e50;
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    margin-top: 30px;
-    padding-left: 15px;
-    border-left: 4px solid #3498db;
+    color: var(--text-color, #2c3e50);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    border-left: 5px solid var(--primary-color, #3498db);
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.1) 0%, transparent 100%);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.privacy-section-title::selection {
+    background-color: var(--accent-color, #e74c3c);
 }
 
 .privacy-section-subtitle {
-    color: #34495e;
-    font-size: 18px;
+    color: var(--text-color, #34495e);
+    font-size: 19px;
     font-weight: 600;
-    margin-bottom: 12px;
-    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-top: 25px;
+    padding: 10px 15px;
+    border-bottom: 2px solid var(--border-color, #ecf0f1);
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .privacy-text {
-    color: #555;
-    font-size: 15px;
-    margin-bottom: 12px;
+    color: var(--text-color, #444);
+    font-size: 16px;
+    margin-bottom: 18px;
     text-align: justify;
+    padding: 0 10px;
+    text-indent: 2em;
+    line-height: 2.1;
+    transition: color 0.3s ease;
+}
+
+.privacy-text::first-letter {
+    font-size: 300%;
+    font-weight: bold;
+    color: var(--primary-color, #3498db);
+    float: left;
+    margin-right: 8px;
+    margin-top: 5px;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.privacy-text::first-line {
+    font-weight: 600;
+    color: var(--text-color, #2c3e50);
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.privacy-text::before {
+    content: "▸";
+    color: #27ae60;
+    margin-right: 8px;
 }
 
 .privacy-list {
-    margin: 15px 0;
-    padding-left: 30px;
+    margin: 20px 0;
+    padding: 15px 25px;
+    background: var(--header-bg, #ffffff);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color, #3498db);
+    list-style-type: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .privacy-list li {
-    margin-bottom: 10px;
-    color: #555;
-    line-height: 1.7;
+    margin-bottom: 12px;
+    line-height: 2;
+    position: relative;
+    padding-left: 35px;
+}
+
+.privacy-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #27ae60;
+    font-size: 18px;
+    font-weight: bold;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(39, 174, 96, 0.1);
+    border-radius: 50%;
 }
 
 .privacy-list-item {
-    margin-bottom: 8px;
-    color: #555;
-    line-height: 1.7;
+    margin-bottom: 12px;
+    line-height: 2;
 }
 
 .privacy-email {
-    color: #3498db;
+    color: var(--primary-color, #3498db);
     font-weight: 600;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.privacy-email:hover {
-    text-decoration: underline;
+.privacy-email::selection {
+    background-color: #f39c12;
 }
 
 .privacy-highlight {
-    background: #f8f9fa;
-    padding: 20px;
+    background: linear-gradient(135deg, var(--light-bg, #f8f9fa) 0%, var(--border-color, #e9ecef) 100%);
+    padding: 25px 30px;
     border-radius: 8px;
-    border-left: 4px solid #3498db;
-    margin: 20px 0;
+    border-left: 5px solid var(--primary-color, #3498db);
+    margin: 25px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.privacy-highlight .privacy-text {
+    margin-bottom: 0;
+    text-indent: 0;
+    font-weight: 500;
+}
+
+.privacy-text strong {
+    font-variant: small-caps;
+    text-transform: lowercase;
+    font-weight: 700;
+}
+
+.privacy-text strong::selection {
+    background-color: #9b59b6;
 }
 
 @media (max-width: 768px) {
     .privacy-container {
-        padding: 30px 15px;
+        padding: 30px 20px;
+        margin: 20px 10px;
     }
 
     .privacy-title {
-        font-size: 26px;
+        font-size: 24px;
         margin-bottom: 30px;
+        padding: 15px 20px;
+    }
+
+    .privacy-section {
+        padding: 20px 15px;
+        margin-bottom: 30px;
+    }
+
+    .privacy-section::before {
+        left: -10px;
+        font-size: 20px;
     }
 
     .privacy-section-title {
         font-size: 20px;
+        padding: 12px 15px;
     }
 
     .privacy-section-subtitle {
-        font-size: 16px;
+        font-size: 17px;
+        padding: 8px 12px;
     }
 
     .privacy-text {
+        font-size: 15px;
+        padding: 0 5px;
+        text-indent: 1.5em;
+        line-height: 1.9;
+    }
+
+    .privacy-text::first-letter {
+        font-size: 250%;
+        margin-right: 6px;
+    }
+
+    .privacy-list {
+        padding: 12px 20px;
+    }
+
+    .privacy-list li {
+        line-height: 1.8;
         font-size: 14px;
+        padding-left: 30px;
+    }
+
+    .privacy-list li::before {
+        width: 20px;
+        height: 20px;
+        font-size: 16px;
+    }
+
+    .privacy-highlight {
+        padding: 20px 15px;
     }
 }
-

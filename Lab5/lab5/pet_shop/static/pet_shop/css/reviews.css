@@ -6,13 +6,14 @@
 }
 
 .reviews-title {
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     text-align: center;
     margin-bottom: 30px;
     font-weight: 600;
     font-size: 32px;
     position: relative;
     padding-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .reviews-title:after {
@@ -28,11 +29,12 @@
 }
 
 .review-form {
-    background: #f8f9fa;
+    background: var(--light-bg, #f8f9fa);
     padding: 25px;
     border-radius: 10px;
     margin-bottom: 30px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
 }
 
 .form-group {
@@ -44,42 +46,44 @@ label {
     margin-bottom: 8px;
     font-weight: 600;
     font-size: 15px;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: color 0.3s ease;
 }
 
 label:hover {
-    color: #3498db;
+    color: var(--primary-color, #3498db);
     cursor: pointer;
 }
 
 input {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color, #ddd);
     border-radius: 6px;
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     box-sizing: border-box;
     transition: all 0.3s ease;
+    background-color: var(--header-bg, #fff);
 }
 
 input:hover {
-    border-color: #3498db;
+    border-color: var(--primary-color, #3498db);
     font-weight: 500;
 }
 
 input:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--primary-color, #3498db);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     font-weight: 500;
 }
 
 input:active {
-    border-color: #2980b9;
+    border-color: var(--secondary-color, #2980b9);
 }
 
 input:disabled {
@@ -109,33 +113,34 @@ input:valid:not(:placeholder-shown) {
 textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color, #ddd);
     border-radius: 6px;
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     min-height: 120px;
     resize: vertical;
     box-sizing: border-box;
     line-height: 1.6;
     transition: all 0.3s ease;
+    background-color: var(--header-bg, #fff);
 }
 
 textarea:hover {
-    border-color: #3498db;
+    border-color: var(--primary-color, #3498db);
     font-weight: 500;
 }
 
 textarea:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--primary-color, #3498db);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     font-weight: 500;
 }
 
 textarea:active {
-    border-color: #2980b9;
+    border-color: var(--secondary-color, #2980b9);
 }
 
 textarea:disabled {
@@ -163,7 +168,7 @@ textarea:valid:not(:placeholder-shown) {
 }
 
 button {
-    background: #3498db;
+    background: var(--primary-color, #3498db);
     color: white;
     border: none;
     padding: 12px 30px;
@@ -178,7 +183,7 @@ button {
 }
 
 button:hover {
-    background: #2980b9;
+    background: var(--secondary-color, #2980b9);
     font-weight: 700;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
@@ -215,11 +220,11 @@ form {
 }
 
 .review-card {
-    background: white;
+    background: var(--header-bg, white);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .review-card:hover {
@@ -237,8 +242,9 @@ form {
 .review-author {
     font-weight: 600;
     font-size: 18px;
-    color: #2c3e50;
+    color: var(--text-color, #2c3e50);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: color 0.3s ease;
 }
 
 .review-rating {
@@ -249,11 +255,12 @@ form {
 }
 
 .review-text {
-    color: #34495e;
+    color: var(--text-color, #34495e);
     line-height: 1.8;
     margin-bottom: 10px;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: color 0.3s ease;
 }
 
 .review-date {
@@ -279,12 +286,13 @@ form {
 .no-reviews {
     text-align: center;
     padding: 60px 40px;
-    color: #7f8c8d;
+    color: var(--text-color, #7f8c8d);
     font-size: 18px;
-    background: #f8f9fa;
+    background: var(--light-bg, #f8f9fa);
     border-radius: 8px;
-    border: 2px dashed #bdc3c7;
+    border: 2px dashed var(--border-color, #bdc3c7);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
