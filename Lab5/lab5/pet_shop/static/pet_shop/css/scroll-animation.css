@@ -1,0 +1,90 @@
+.scroll-animation-container {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 120px);
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.scroll-animation-left,
+.scroll-animation-right {
+    position: absolute;
+    top: 0;
+    width: auto;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.scroll-animation-left {
+    left: 0;
+}
+
+.scroll-animation-right {
+    right: 0;
+    padding-right: 80px;
+}
+
+.scroll-fish {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    opacity: 0.6;
+    transition: transform 0.2s ease-out;
+    pointer-events: none;
+    transform-origin: center center;
+}
+
+.scroll-fish img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.scroll-fish-1 {
+    top: 10%;
+}
+
+.scroll-fish-2 {
+    top: 40%;
+}
+
+.scroll-fish-3 {
+    top: 70%;
+}
+
+.scroll-animation-right .scroll-fish-1 {
+    top: 10%;
+}
+
+.scroll-animation-right .scroll-fish-2 {
+    top: 40%;
+}
+
+.scroll-animation-right .scroll-fish-3 {
+    top: 70%;
+}
+
+@media (max-width: 1200px) {
+    .scroll-animation-left {
+        padding: 0 15px;
+    }
+    
+    .scroll-animation-right {
+        padding-right: 60px;
+    }
+    
+    .scroll-fish {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .scroll-animation-container {
+        display: none;
+    }
+}
+

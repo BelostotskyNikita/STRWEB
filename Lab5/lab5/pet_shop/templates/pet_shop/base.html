@@ -8,10 +8,36 @@
     <title>Pet shop</title>
     {% endblock %}
     <link rel="stylesheet" href="{% static 'pet_shop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'pet_shop/css/scroll-animation.css' %}">
     {% block extra_css %}{% endblock %}
     <link rel="icon" type="image/png" href="{% static 'pet_shop/images/logo/logo_black.png' %}">
 </head>
 <body>
+    <div class="scroll-animation-container">
+        <div class="scroll-animation-left">
+            <div class="scroll-fish scroll-fish-1">
+                <img src="{% static 'pet_shop/images/animation/scroll_1.png' %}" alt="Scroll Animation">
+            </div>
+            <div class="scroll-fish scroll-fish-2">
+                <img src="{% static 'pet_shop/images/animation/scroll_2.png' %}" alt="Scroll Animation">
+            </div>
+            <div class="scroll-fish scroll-fish-3">
+                <img src="{% static 'pet_shop/images/animation/scroll_3.png' %}" alt="Scroll Animation">
+            </div>
+        </div>
+        <div class="scroll-animation-right">
+            <div class="scroll-fish scroll-fish-1">
+                <img src="{% static 'pet_shop/images/animation/scroll_4.png' %}" alt="Scroll Animation">
+            </div>
+            <div class="scroll-fish scroll-fish-2">
+                <img src="{% static 'pet_shop/images/animation/scroll_5.png' %}" alt="Scroll Animation">
+            </div>
+            <div class="scroll-fish scroll-fish-3">
+                <img src="{% static 'pet_shop/images/animation/scroll_6.png' %}" alt="Scroll Animation">
+            </div>
+        </div>
+    </div>
+
     <div class="header">
         <div class="title-section">
             <a href="{% url 'pet_shop:index' %}">
@@ -49,12 +75,12 @@
         <a href="{% url 'pet_shop:news' %}">Новости</a>
         <a href="{% url 'pet_shop:glossary' %}">Словарь терминов</a>
         <a href="{% url 'pet_shop:contacts' %}">Контакты</a>
+        <a href="{% url 'pet_shop:contacts_table' %}">Таблица сотрудников</a>
         <a href="{% url 'pet_shop:privacy' %}">Политика конфиденциальности</a>
         <a href="{% url 'pet_shop:vacancies' %}">Вакансии</a>
         <a href="{% url 'pet_shop:reviews' %}">Отзывы</a>
         <a href="{% url 'pet_shop:promocodes' %}">Промокоды</a>
         <a href="{% url 'pet_shop:catalog' %}">Каталог</a>
-        <a href="{% url 'pet_shop:employees_table' %}">Таблица сотрудников</a>
         <a href="{% url 'pet_shop:form_generator' %}">Доп. задания</a>
     </div>
 
@@ -63,6 +89,7 @@
     </div>
 
     {% block extra_js %}{% endblock %}
+    <script src="{% static 'pet_shop/js/scroll-animation.js' %}"></script>
     <script src="{% static 'pet_shop/js/theme-toggle.js' %}"></script>
 </body>
 </html>

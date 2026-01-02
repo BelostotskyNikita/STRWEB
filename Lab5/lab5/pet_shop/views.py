@@ -416,33 +416,42 @@ def statistics_view(request):
 
 
 @login_required
-def employees_table(request):
-    if not request.user.serviceuser.is_employee:
-        return redirect('pet_shop:client_dashboard')
-    return render(request, 'pet_shop/employees_table.html')
-
-
-@login_required
-def get_employees_data(request):
-    if not request.user.serviceuser.is_employee:
-        return JsonResponse({'error': 'Access denied'}, status=403)
-    contacts = models.Contact.objects.all()
-    employees_data = []
-    for contact in contacts:
-        employees_data.append({
-            'id': contact.id,
-            'full_name': contact.full_name or '',
-            'email': contact.email or '',
-            'phone': contact.phone or '',
-            'description': contact.description or '',
-            'pic': contact.pic.url if contact.pic else '',
-            'url': contact.url or ''
-        })
-    return JsonResponse({'employees': employees_data}, safe=False)
-
-
-@login_required
 def form_generator(request):
     if not request.user.serviceuser.is_employee:
         return redirect('pet_shop:client_dashboard')
     return render(request, 'pet_shop/form_generator.html')
+
+
+def contacts_table(request):
+    return render(request, 'pet_shop/company/contacts_table.html')
+
+
+def get_employees_api(request):
+    employees = models.ServiceUser.objects.filter(is_employee=True).select_related('user')
+    
+    job_descriptions = [
+        "Менеджер по продажам. Опыт работы с клиентами более 5 лет. Помогает подобрать оптимальные товары для ваших питомцев.",
+        "Специалист по работе с клиентами. Консультирует по вопросам ухода за животными и подбора кормов.",
+        "Консультант по подбору товаров. Эксперт в области аквариумистики и террариумистики.",
+        "Администратор магазина. Координирует работу магазина и обеспечивает качественное обслуживание клиентов.",
+        "Ветеринарный консультант. Оказывает профессиональные консультации по здоровью и питанию животных.",
+        "Маркетолог. Разрабатывает маркетинговые стратегии и продвигает бренд компании.",
+        "Логист. Отвечает за доставку товаров и управление складскими запасами.",
+        "Финансовый менеджер. Управляет финансовыми потоками и анализирует экономические показатели."
+    ]
+    
+    employees_data = []
+    for idx, employee in enumerate(employees):
+        full_name = employee.user.get_full_name() or employee.user.username
+        employees_data.append({
+            'id': employee.id,
+            'full_name': full_name,
+            'username': employee.user.username,
+            'email': employee.user.email or '',
+            'phone': employee.phone or '',
+            'description': employee.address if employee.address else job_descriptions[idx % len(job_descriptions)],
+            'pic_url': employee.pic.url if employee.pic else None,
+            'pic_name': employee.pic.name if employee.pic else None,
+        })
+    
+    return JsonResponse({'employees': employees_data}, safe=False)

@@ -1,0 +1,1079 @@
+{% extends "pet_shop/base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pet_shop/css/contacts.css' %}">
+<style>
+    .employees-table-container {
+        max-width: 1400px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+    
+    .employees-table-header {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-size: 28px;
+        font-weight: 700;
+    }
+    
+    .table-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .search-filter {
+        display: flex;
+        gap: 10px;
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .search-input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    .search-btn {
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+    
+    .search-btn:hover {
+        background: #5568d3;
+    }
+    
+    .add-employee-btn {
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+    
+    .add-employee-btn:hover {
+        background: #218838;
+    }
+    
+    .premium-btn {
+        padding: 10px 20px;
+        background: #ffc107;
+        color: #333;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s;
+        margin-left: 10px;
+    }
+    
+    .premium-btn:hover {
+        background: #e0a800;
+    }
+    
+    .premium-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .employees-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    
+    .employees-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .employees-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+    }
+    
+    .employees-table th:hover {
+        background: rgba(255,255,255,0.1);
+    }
+    
+    .employees-table th.sortable::after {
+        content: ' ↕';
+        opacity: 0.5;
+        font-size: 12px;
+    }
+    
+    .employees-table th.sort-asc::after {
+        content: ' ↑';
+        opacity: 1;
+    }
+    
+    .employees-table th.sort-desc::after {
+        content: ' ↓';
+        opacity: 1;
+    }
+    
+    .employees-table th:first-child {
+        width: 50px;
+        text-align: center;
+        cursor: default;
+    }
+    
+    .employees-table th:first-child::after {
+        content: '';
+    }
+    
+    .employees-table th:nth-child(2) {
+        width: 100px;
+        text-align: center;
+    }
+    
+    .employees-table tbody tr {
+        border-bottom: 1px solid #e0e0e0;
+        transition: background-color 0.2s;
+        cursor: pointer;
+    }
+    
+    .employees-table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .employees-table tbody tr.selected {
+        background-color: #e3f2fd;
+    }
+    
+    .employees-table tbody tr:last-child {
+        border-bottom: none;
+    }
+    
+    .employees-table td {
+        padding: 15px;
+        vertical-align: middle;
+    }
+    
+    .employees-table td:first-child {
+        text-align: center;
+    }
+    
+    .employees-table td:nth-child(2) {
+        text-align: center;
+    }
+    
+    .employee-checkbox {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #667eea;
+    }
+    
+    .employee-photo {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #667eea;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .employee-photo-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+        margin: 0 auto;
+    }
+    
+    .employee-name {
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+        font-size: 16px;
+    }
+    
+    .employee-description {
+        color: #666;
+        font-size: 14px;
+        margin-top: 5px;
+        line-height: 1.5;
+        max-width: 400px;
+    }
+    
+    .employee-phone, .employee-email {
+        color: #555;
+        font-size: 14px;
+        margin: 3px 0;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .pagination-btn {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    
+    .pagination-btn:hover:not(:disabled) {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .pagination-btn.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .employee-details {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: none;
+    }
+    
+    .employee-details.active {
+        display: block;
+    }
+    
+    .employee-details h3 {
+        margin-top: 0;
+        color: #333;
+    }
+    
+    .employee-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .detail-item {
+        padding: 10px;
+        background: white;
+        border-radius: 5px;
+    }
+    
+    .detail-label {
+        font-weight: 600;
+        color: #666;
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+    
+    .detail-value {
+        color: #333;
+        font-size: 14px;
+    }
+    
+    .add-form-container {
+        display: none;
+        margin: 20px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .add-form-container.active {
+        display: block;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    
+    .form-group input.error,
+    .form-group textarea.error {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+    }
+    
+    .validation-message {
+        margin-top: 5px;
+        font-size: 12px;
+        min-height: 20px;
+    }
+    
+    .validation-message.error {
+        color: #dc3545;
+    }
+    
+    .validation-message.success {
+        color: #28a745;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .submit-btn {
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+    
+    .submit-btn:hover:not(:disabled) {
+        background: #218838;
+    }
+    
+    .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .cancel-btn {
+        padding: 10px 20px;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+    
+    .cancel-btn:hover {
+        background: #5a6268;
+    }
+    
+    .premium-text {
+        margin-top: 20px;
+        padding: 20px;
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+        border-radius: 8px;
+        display: none;
+    }
+    
+    .premium-text.active {
+        display: block;
+    }
+    
+    .premium-text h3 {
+        margin-top: 0;
+        color: #856404;
+    }
+    
+    .premium-text p {
+        color: #856404;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    
+    .preloader-container {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10000;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 30px;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        display: block;
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    [data-theme="dark"] .preloader-container {
+        background: rgba(44, 62, 80, 0.9);
+    }
+    
+    .preloader {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .preloader-image {
+        width: 40px;
+        height: 40px;
+        animation: preloader-spin 2s linear infinite;
+    }
+    
+    @keyframes preloader-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .preloader-text {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color, #333);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: color 0.3s ease;
+    }
+    
+    .no-employees {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="employees-table-container">
+    <h2 class="employees-table-header">Таблица сотрудников</h2>
+    
+    <div class="table-controls">
+        <div class="search-filter">
+            <input type="text" id="search-input" class="search-input" placeholder="Поиск по таблице...">
+            <button class="search-btn" onclick="applyFilter()">Найти</button>
+        </div>
+        <div>
+            <button class="add-employee-btn" onclick="toggleAddForm()">Добавить</button>
+            <button class="premium-btn" id="premium-btn" onclick="generatePremiumText()" disabled>Премировать</button>
+        </div>
+    </div>
+    
+    <div class="add-form-container" id="add-form">
+        <h3>Добавить сотрудника</h3>
+        <form id="employee-form">
+            <div class="form-group">
+                <label for="form-full-name">ФИО *</label>
+                <input type="text" id="form-full-name" name="full_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="form-email">Почта *</label>
+                <input type="email" id="form-email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="form-phone">Телефон *</label>
+                <input type="text" id="form-phone" name="phone" required onblur="validatePhone(this)">
+                <div class="validation-message" id="phone-validation"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="form-url">URL</label>
+                <input type="text" id="form-url" name="url" onblur="validateURL(this)">
+                <div class="validation-message" id="url-validation"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="form-description">Описание работ *</label>
+                <textarea id="form-description" name="description" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="form-photo">Фото</label>
+                <input type="file" id="form-photo" name="photo" accept="image/*">
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="submit-btn" id="submit-btn" onclick="addEmployee()" disabled>Добавить в таблицу</button>
+                <button type="button" class="cancel-btn" onclick="toggleAddForm()">Отмена</button>
+            </div>
+        </form>
+    </div>
+    
+    <table class="employees-table" id="employees-table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="select-all" class="employee-checkbox" onchange="toggleAllCheckboxes()">
+                </th>
+                <th class="sortable" data-sort="photo">Фото</th>
+                <th class="sortable" data-sort="full_name" onclick="sortTable('full_name')">ФИО</th>
+                <th class="sortable" data-sort="description" onclick="sortTable('description')">Описание работ</th>
+                <th class="sortable" data-sort="phone" onclick="sortTable('phone')">Телефон</th>
+                <th class="sortable" data-sort="email" onclick="sortTable('email')">Почта</th>
+            </tr>
+        </thead>
+        <tbody id="employees-tbody">
+        </tbody>
+    </table>
+    
+    <div class="pagination" id="pagination">
+    </div>
+    
+    <div class="employee-details" id="employee-details">
+        <h3>Детали сотрудника</h3>
+        <div class="employee-details-grid" id="details-grid">
+        </div>
+    </div>
+    
+    <div class="premium-text" id="premium-text">
+        <h3>Текст премирования</h3>
+        <p id="premium-content"></p>
+    </div>
+</div>
+
+<script>
+let employeesData = [];
+let filteredData = [];
+let currentPage = 1;
+const itemsPerPage = 3;
+let sortColumn = null;
+let sortDirection = 'asc';
+let selectedEmployees = new Set();
+
+function loadEmployees() {
+    setTimeout(() => {
+        showPreloader();
+        
+        fetch('{% url "pet_shop:get_employees_api" %}')
+            .then(response => response.json())
+            .then(data => {
+                employeesData = data.employees;
+                filteredData = [...employeesData];
+                renderTable();
+                hidePreloader();
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных:', error);
+                hidePreloader();
+            });
+    }, 100);
+}
+
+function renderTable() {
+    const tbody = document.getElementById('employees-tbody');
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageData = filteredData.slice(start, end);
+    tbody.innerHTML = '';
+    
+    if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-employees">Нет данных для отображения</td></tr>';
+        renderPagination();
+        return;
+    }
+    
+    pageData.forEach(employee => {
+        const row = document.createElement('tr');
+        row.onclick = () => showEmployeeDetails(employee);
+        const isSelected = selectedEmployees.has(employee.id);
+        const initial = (employee.full_name || employee.username || '?')[0].toUpperCase();
+        const photoHtml = employee.pic_url 
+            ? `<img src="${employee.pic_url}" alt="${employee.full_name}" class="employee-photo" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'employee-photo-placeholder\\'>${initial}</div>';">`
+            : `<div class="employee-photo-placeholder">${initial}</div>`;
+        
+        row.innerHTML = `
+            <td onclick="event.stopPropagation()">
+                <input type="checkbox" class="employee-checkbox employee-item-checkbox" 
+                       value="${employee.id}" 
+                       ${isSelected ? 'checked' : ''}
+                       onchange="toggleEmployeeSelection(${employee.id}, this.checked)">
+            </td>
+            <td>${photoHtml}</td>
+            <td><div class="employee-name">${employee.full_name || employee.username}</div></td>
+            <td><div class="employee-description">${employee.description || 'Не указано'}</div></td>
+            <td><div class="employee-phone">${employee.phone || 'Не указан'}</div></td>
+            <td><div class="employee-email">${employee.email || 'Не указана'}</div></td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    renderPagination();
+    updateSortIndicators();
+    updateSelectAllCheckbox();
+    updatePremiumButton();
+}
+
+function renderPagination() {
+    const pagination = document.getElementById('pagination');
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    
+    if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+    }
+    
+    let html = '';
+    html += `<button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Предыдущая</button>`;
+    
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+            html += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+            html += `<span>...</span>`;
+        }
+    }
+    
+    html += `<button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Следующая ›</button>`;
+    pagination.innerHTML = html;
+}
+
+function goToPage(page) {
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderTable();
+}
+
+function sortTable(column) {
+    showPreloader();
+    setTimeout(() => {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortColumn = column;
+            sortDirection = 'asc';
+        }
+        
+        filteredData.sort((a, b) => {
+            let aVal = a[column] || '';
+            let bVal = b[column] || '';
+            
+            if (column === 'full_name') {
+                aVal = a.full_name || a.username || '';
+                bVal = b.full_name || b.username || '';
+            }
+            
+            if (typeof aVal === 'string') {
+                aVal = aVal.toLowerCase();
+                bVal = bVal.toLowerCase();
+            }
+            
+            if (sortDirection === 'asc') {
+                return aVal > bVal ? 1 : -1;
+            } else {
+                return aVal < bVal ? 1 : -1;
+            }
+        });
+        
+        currentPage = 1;
+        renderTable();
+        updateSortIndicators();
+        hidePreloader();
+    }, 300);
+}
+
+function updateSortIndicators() {
+    document.querySelectorAll('.sortable').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (th.dataset.sort === sortColumn) {
+            th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
+    });
+}
+
+function applyFilter() {
+    showPreloader();
+    setTimeout(() => {
+        const searchText = document.getElementById('search-input').value.toLowerCase();
+        
+        if (!searchText) {
+            filteredData = [...employeesData];
+        } else {
+            filteredData = employeesData.filter(emp => {
+                const fullName = (emp.full_name || emp.username || '').toLowerCase();
+                const email = (emp.email || '').toLowerCase();
+                const phone = (emp.phone || '').toLowerCase();
+                const description = (emp.description || '').toLowerCase();
+                
+                return fullName.includes(searchText) || 
+                       email.includes(searchText) || 
+                       phone.includes(searchText) || 
+                       description.includes(searchText);
+            });
+        }
+        
+        currentPage = 1;
+        renderTable();
+        hidePreloader();
+    }, 300);
+}
+
+function showEmployeeDetails(employee) {
+    const detailsDiv = document.getElementById('employee-details');
+    const grid = document.getElementById('details-grid');
+    
+    grid.innerHTML = `
+        <div class="detail-item">
+            <div class="detail-label">ФИО</div>
+            <div class="detail-value">${employee.full_name || employee.username}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Email</div>
+            <div class="detail-value">${employee.email || 'Не указан'}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Телефон</div>
+            <div class="detail-value">${employee.phone || 'Не указан'}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Описание работ</div>
+            <div class="detail-value">${employee.description || 'Не указано'}</div>
+        </div>
+    `;
+    
+    detailsDiv.classList.add('active');
+}
+function toggleAllCheckboxes() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.employee-item-checkbox');
+    
+    checkboxes.forEach(cb => {
+        const employeeId = parseInt(cb.value);
+        cb.checked = selectAll.checked;
+        if (selectAll.checked) {
+            selectedEmployees.add(employeeId);
+        } else {
+            selectedEmployees.delete(employeeId);
+        }
+    });
+    
+    updatePremiumButton();
+    updateSelectAllCheckbox();
+}
+
+function toggleEmployeeSelection(employeeId, isSelected) {
+    if (isSelected) {
+        selectedEmployees.add(employeeId);
+    } else {
+        selectedEmployees.delete(employeeId);
+    }
+    updatePremiumButton();
+    updateSelectAllCheckbox();
+}
+
+function updateSelectAllCheckbox() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.employee-item-checkbox');
+    
+    if (checkboxes.length === 0) {
+        selectAll.checked = false;
+        selectAll.indeterminate = false;
+        return;
+    }
+    
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    
+    if (checkedCount === 0) {
+        selectAll.checked = false;
+        selectAll.indeterminate = false;
+    } else if (checkedCount === checkboxes.length) {
+        selectAll.checked = true;
+        selectAll.indeterminate = false;
+    } else {
+        selectAll.checked = false;
+        selectAll.indeterminate = true;
+    }
+}
+
+function updatePremiumButton() {
+    const btn = document.getElementById('premium-btn');
+    btn.disabled = selectedEmployees.size === 0;
+}
+
+function generatePremiumText() {
+    showPreloader();
+    setTimeout(() => {
+        const selectedNames = [];
+        selectedEmployees.forEach(employeeId => {
+            const employee = employeesData.find(emp => emp.id === employeeId);
+            if (employee) {
+                selectedNames.push(employee.full_name || employee.username);
+            }
+        });
+        
+        const surnames = selectedNames.map(name => {
+            const parts = name.trim().split(' ');
+            return parts[parts.length - 1] || name;
+        });
+        
+        const text = `Поздравляем сотрудников ${surnames.join(', ')} с получением премии за отличную работу!`;
+        
+        document.getElementById('premium-content').textContent = text;
+        document.getElementById('premium-text').classList.add('active');
+        hidePreloader();
+    }, 300);
+}
+function toggleAddForm() {
+    const form = document.getElementById('add-form');
+    form.classList.toggle('active');
+    if (!form.classList.contains('active')) {
+        document.getElementById('employee-form').reset();
+        clearValidation();
+    }
+}
+
+function validatePhone(input, skipCheckForm) {
+    const phone = input.value.trim();
+    const validation = document.getElementById('phone-validation');
+    
+    if (!phone) {
+        validation.textContent = '';
+        input.classList.remove('error');
+        if (!skipCheckForm) checkFormValidity();
+        return false;
+    }
+    
+    const pattern = /^(\+375|8)\s?\(?\d{2,3}\)?\s?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+    let isValid = pattern.test(phone);
+    
+    if (!isValid) {
+        const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+        
+        if (cleanPhone.startsWith('+375')) {
+            isValid = /^\+375\d{9}$/.test(cleanPhone);
+        } else if (cleanPhone.startsWith('8')) {
+            const after8 = cleanPhone.substring(1);
+            isValid = /^\d{10,11}$/.test(after8) && after8.length >= 10;
+        }
+    }
+    
+    if (isValid) {
+        validation.textContent = '✓ Валидный номер';
+        validation.className = 'validation-message success';
+        input.classList.remove('error');
+        if (!skipCheckForm) checkFormValidity();
+        return true;
+    } else {
+        validation.textContent = 'Невалидный номер телефона. Примеры: 80291112233, 8 (029) 1112233, +375 (29) 111-22-33';
+        validation.className = 'validation-message error';
+        input.classList.add('error');
+        if (!skipCheckForm) checkFormValidity();
+        return false;
+    }
+}
+
+function validateURL(input, skipCheckForm) {
+    const url = input.value.trim();
+    const validation = document.getElementById('url-validation');
+    
+    if (!url) {
+        validation.textContent = '';
+        input.classList.remove('error');
+        if (!skipCheckForm) checkFormValidity();
+        return true;
+    }
+    
+    const pattern = /^https?:\/\/.+(\.php|\.html)$/;
+    
+    if (pattern.test(url)) {
+        validation.textContent = '✓ Валидный URL';
+        validation.className = 'validation-message success';
+        input.classList.remove('error');
+        if (!skipCheckForm) checkFormValidity();
+        return true;
+    } else {
+        validation.textContent = 'URL должен начинаться с http:// или https:// и заканчиваться на .php или .html';
+        validation.className = 'validation-message error';
+        input.classList.add('error');
+        if (!skipCheckForm) checkFormValidity();
+        return false;
+    }
+}
+
+function checkFormValidity() {
+    const submitBtn = document.getElementById('submit-btn');
+    const fullName = document.getElementById('form-full-name').value.trim();
+    const email = document.getElementById('form-email').value.trim();
+    const phone = document.getElementById('form-phone').value.trim();
+    const description = document.getElementById('form-description').value.trim();
+    const url = document.getElementById('form-url').value.trim();
+    
+    const allFieldsFilled = fullName && email && phone && description;
+    
+    if (!allFieldsFilled) {
+        submitBtn.disabled = true;
+        return;
+    }
+    
+    let phoneValid = false;
+    if (phone) {
+        const phoneInput = document.getElementById('form-phone');
+        phoneValid = validatePhone(phoneInput, true);
+    }
+    
+    let urlValid = true;
+    if (url) {
+        urlValid = validateURL(document.getElementById('form-url'), true);
+    }
+    if (phoneValid && urlValid) {
+        submitBtn.disabled = false;
+    } else {
+        submitBtn.disabled = true;
+    }
+}
+
+function clearValidation() {
+    document.querySelectorAll('.validation-message').forEach(el => {
+        el.textContent = '';
+        el.className = 'validation-message';
+    });
+    document.querySelectorAll('.error').forEach(el => {
+        el.classList.remove('error');
+    });
+    document.getElementById('submit-btn').disabled = true;
+}
+
+function addEmployee() {
+    const form = document.getElementById('employee-form');
+    const formData = new FormData(form);
+    
+    const employee = {
+        id: Date.now(),
+        full_name: formData.get('full_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        description: formData.get('description'),
+        url: formData.get('url') || null,
+        pic_url: null,
+        pic_name: null,
+        username: formData.get('full_name').split(' ')[0] || 'user'
+    };
+    
+    const photoFile = formData.get('photo');
+    if (photoFile && photoFile.size > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            employee.pic_url = e.target.result;
+            addEmployeeToTable(employee);
+        };
+        reader.readAsDataURL(photoFile);
+    } else {
+        addEmployeeToTable(employee);
+    }
+}
+
+function addEmployeeToTable(employee) {
+    employeesData.unshift(employee);
+    filteredData = [...employeesData];
+    currentPage = 1;
+    renderTable();
+    toggleAddForm();
+    console.log('Сотрудник добавлен в таблицу:', employee);
+}
+
+function showPreloader() {
+    hidePreloader();
+    
+    if (!document.body) {
+        setTimeout(showPreloader, 10);
+        return;
+    }
+    
+    const preloader = document.createElement('div');
+    preloader.className = 'preloader-container';
+    preloader.id = 'employees-preloader';
+    preloader.innerHTML = `
+        <div class="preloader">
+            <img src="/static/pet_shop/images/animation/loading.png" alt="Загрузка" class="preloader-image">
+            <p class="preloader-text">Загрузка...</p>
+        </div>
+    `;
+    document.body.appendChild(preloader);
+}
+
+function hidePreloader() {
+    const preloader = document.getElementById('employees-preloader');
+    if (preloader) {
+        preloader.remove();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadEmployees();
+    
+    document.getElementById('form-full-name').addEventListener('input', checkFormValidity);
+    document.getElementById('form-email').addEventListener('input', checkFormValidity);
+    document.getElementById('form-description').addEventListener('input', checkFormValidity);
+    document.getElementById('form-url').addEventListener('input', function() {
+        validateURL(this);
+        checkFormValidity();
+    });
+    document.getElementById('form-phone').addEventListener('input', function() {
+        checkFormValidity();
+    });
+    document.getElementById('form-phone').addEventListener('blur', function() {
+        validatePhone(this);
+        checkFormValidity();
+    });
+    
+    document.getElementById('search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            applyFilter();
+        }
+    });
+});
+</script>
+{% endblock %}

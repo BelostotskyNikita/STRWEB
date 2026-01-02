@@ -38,10 +38,8 @@
                         </div>
                     </div>
 
-                    <!-- Чекбокс должен быть ПЕРЕД элементами, которыми он управляет -->
                     <input type="checkbox" id="read-more-{{ n.id }}" class="read-more-checkbox">
 
-                    <!-- Обертка для текста -->
                     <div class="news-text-wrapper">
                         <div class="news-text-preview" itemprop="description">
                             {{ n.text|linebreaks }}
@@ -51,7 +49,6 @@
                         </div>
                     </div>
 
-                    <!-- Кнопки после чекбокса -->
                     <label for="read-more-{{ n.id }}" class="read-more-btn">
                         Подробнее
                     </label>

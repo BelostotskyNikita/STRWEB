@@ -8,7 +8,6 @@
 <div class="container contact-page">
     <h3 class="contact-header">Наши контакты</h3>
     
-    <!-- Отладочная информация -->
     {% if employees %}
         <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Найдено сотрудников: {{ employees|length }}</p>
     {% endif %}
@@ -18,35 +17,34 @@
         {% for employee in employees %}
         <div class="contact-card">
             <div class="contact-card-inner">
-                <!-- Фото сотрудника -->
                 <div class="contact-photo-wrapper">
+                    {% with full_name=employee.user.get_full_name|default:employee.user.username %}
+                    {% with initial=full_name|first|upper|default:"?" %}
                     {% if employee.pic %}
-                        <img src="{{ employee.pic.url }}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                        <img src="{{ employee.pic.url }}" alt="{{ full_name }}" class="contact-photo" onerror="handleImageError(this, '{{ initial }}');">
                     {% else %}
                         {% if forloop.counter0 == 0 or forloop.counter0 == 3 or forloop.counter0 == 6 or forloop.counter0 == 9 or forloop.counter0 == 12 %}
-                            <img src="{% static 'pet_shop/images/avatar/ava_6.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                            <img src="{% static 'pet_shop/images/avatar/ava_6.png' %}" alt="{{ full_name }}" class="contact-photo" onerror="handleImageError(this, '{{ initial }}');">
                         {% elif forloop.counter0 == 1 or forloop.counter0 == 4 or forloop.counter0 == 7 or forloop.counter0 == 10 or forloop.counter0 == 13 %}
-                            <img src="{% static 'pet_shop/images/avatar/ava_7.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                            <img src="{% static 'pet_shop/images/avatar/ava_7.png' %}" alt="{{ full_name }}" class="contact-photo" onerror="handleImageError(this, '{{ initial }}');">
                         {% else %}
-                            <img src="{% static 'pet_shop/images/avatar/ava_8.png' %}" alt="{{ employee.user.get_full_name|default:employee.user.username }}" class="contact-photo">
+                            <img src="{% static 'pet_shop/images/avatar/ava_8.png' %}" alt="{{ full_name }}" class="contact-photo" onerror="handleImageError(this, '{{ initial }}');">
                         {% endif %}
                     {% endif %}
+                    {% endwith %}
+                    {% endwith %}
                 </div>
 
-                <!-- Информация о сотруднике -->
                 <div class="contact-info">
                     <h4 class="contact-name">
                         {{ employee.user.get_full_name|default:employee.user.username }}
                     </h4>
                     
-                    <!-- Описание выполняемых работ -->
                     <div class="contact-description">
                         {{ employee.job_description }}
                     </div>
 
-                    <!-- Контактные данные -->
                     <div class="contact-details">
-                        <!-- Телефон -->
                         {% if employee.phone %}
                         <div class="contact-detail-item">
                             <span class="contact-icon">📞</span>
@@ -61,7 +59,6 @@
                         </div>
                         {% endif %}
 
-                        <!-- Email -->
                         {% if employee.user.email %}
                         <div class="contact-detail-item">
                             <span class="contact-icon">✉️</span>
@@ -91,4 +88,15 @@
     </div>
     {% endif %}
 </div>
+
+<script>
+function handleImageError(img, initial) {
+    img.onerror = null;
+    img.style.display = 'none';
+    const placeholder = document.createElement('div');
+    placeholder.className = 'contact-photo-placeholder';
+    placeholder.innerHTML = '<div class="contact-initials">' + initial + '</div>';
+    img.parentElement.appendChild(placeholder);
+}
+</script>
 {% endblock %}

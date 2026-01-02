@@ -108,12 +108,8 @@
                     easing: 'easeInOutQuart',
                     onProgress: function(animation) {
                         const progress = Math.round(animation.currentStep / animation.numSteps * 100);
-                        if (progress % 10 === 0) {
-                            console.log('Прогресс анимации:', progress + '%');
-                        }
                     },
                     onComplete: function() {
-                        console.log('Анимация графика завершена');
                     }
                 },
                 plugins: {
